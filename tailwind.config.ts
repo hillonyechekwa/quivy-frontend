@@ -88,7 +88,18 @@ export default {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
-  	}
+	  },
+	  screens: {
+		  xs: '480px',
+		  ss: '620px',
+		  sm: '768px',
+		  md: '1060px',
+		  lg: '1200px',
+		  xlg: '1300px',
+		  xxlg: '1400px',
+		  xl: '1700px'
+	  }
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
