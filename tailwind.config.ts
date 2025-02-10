@@ -12,6 +12,8 @@ export default {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+			quivyPurple: '#7340FD',
+			quivyOrange: '#FF9800',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

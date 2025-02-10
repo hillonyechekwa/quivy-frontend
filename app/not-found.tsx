@@ -1,10 +1,12 @@
 
+"use client"
 
-
-export function NotFound() {
+const NotFound = () => {
     return (
         <div>
             
         </div>
     )
 }
+
+export default NotFound

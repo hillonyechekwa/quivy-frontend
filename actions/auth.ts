@@ -99,7 +99,23 @@ export async function refreshToken(oldRefreshToken?: string) {
         })
 
         if (response.status !== 200) {
-            throw new Error("failed to refres token", response.statusText)
+            throw new Error("failed to refresh token" + response.statusText)
         }
-    }catch(error){}
+
+        const { accessToken, refreshToken } = await response.data
+        
+        const updateRes = await axios.post("http://localhost:3000/api/auth/update", {
+            accessToken,
+            refreshToken
+        })
+
+        if (updateRes.status !== 200) {
+            throw new Error("failed to update tokens ")
+        }
+
+        return accessToken
+    } catch (error) {
+        console.error("refresh token failed", error)
+        return null
+    }
 }
