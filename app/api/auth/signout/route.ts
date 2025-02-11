@@ -4,14 +4,19 @@ import { BACKEND_URL } from "@/utils/constants";
 import { redirect, RedirectType } from "next/navigation";
 
 // import { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(){
     const response = await authFetch(`${BACKEND_URL}/auth/signout`, {
         method: "POST"
     })
+
     console.log(response)
     if (response.ok) {
-        return null
+        return NextResponse.json(
+            {error: "Missing Required Field Data"},
+            {status: 400}
+        )
     }
 
     await deleteSession()
