@@ -32,7 +32,7 @@ const Nav = () => {
                     <Link href="/auth/signin" className={`${buttonVariants({ variant: "link" })}`}>Sign In</Link>
                 </li>
                 <li>
-                    <Link href="/auth/signin" className={`${buttonVariants({variant: "secondary"})}`} >Create Account</Link>
+                    <Link href="/auth/signin" className={`${buttonVariants({variant: "secondary"})} bg-quivyOrange text-white`} >Create Account</Link>
                 </li>
             </ul>
         </nav>
