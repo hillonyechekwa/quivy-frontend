@@ -14,22 +14,30 @@ export type SessionPayload = {
 
 
 export const AuthFormSchema = z.object({
-    email: z.string().email({ message: "please enter email" }).trim(),
-    password: z
-        .string()
-        .min(8, {message: "be at least 8 characters long."})
-        .regex(/[a-zA-Z]/, { message: "contain at least one letter." })
-        .regex(/[0-9]/, {message: "contain at least one number."})
-        .regex(/[^a-zA-Z0-9]/, {message: "contain at least one special character"})
-        .trim()
-})
+  email: z.string().email({ message: "please enter email" }).trim(),
+  password: z
+    .string()
+    .min(8, { message: "be at least 8 characters long." })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      { message: "Password must include uppercase, lowercase, number and special characters." }
+    )
+    .trim(),
+});
 
-export type FormState =
-    |{
-        error?: {
-            email?: string[],
-            password?: string[]
-        };
-        message?: string
-    }
-    | undefined
+// export type FormState =
+//     |{
+//         error?: {
+//             email?: string[],
+//             password?: string[]
+//         };
+//         message?: string
+//     }
+//     | undefined
+
+
+export type FormState = {
+    success: boolean
+    fields?: Record<string, string>
+    errors?: Record<string, string[]>
+}

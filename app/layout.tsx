@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inria_Sans } from "next/font/google";
+import { Inria_Sans} from "next/font/google";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import "./globals.css";
+import { verifySession } from "@/utils/dal";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -26,22 +30,32 @@ export const metadata: Metadata = {
   description: "",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const isAuth = await verifySession()
+
+
   return (
     <html lang="en">
       <body
-        className={`${inriaSans.variable} antialiased`}
-      >
+        className={`${inriaSans.variable} antialiased flex flex-col`}
+      >{isAuth && (
         <SidebarProvider>
           <AppSidebar />
-          <main>
+            <main className="font-[family-name:var(--font-inria-sans)]">
             {children}
           </main>
         </SidebarProvider>
+      )
+        }
+        <main className="font-[family-name:var(--font-inria-sans)] flex-1 min-h-[100vh]">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
