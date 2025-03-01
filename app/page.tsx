@@ -29,6 +29,26 @@ import BrandImgThree from "@/public/assets/illustrations/Business mission-pana 1
 import MemoQuestionIllustration from "@/components/QuestionIllustration";
 import AppBenefits from "@/components/AppBenefits";
 import { Textarea } from "@/components/ui/textarea";
+import Spiral from "@/public/assets/illustrations/spiral.png"
+import Splash from "@/public/assets/illustrations/splash.png"
+import Phone from "@/components/Phone"
+import QrCode from "@/components/QrCode"
+import QuviyLogo from "@/public/assets/Logo-white.png"
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInstagramSquare, faFacebook, faLinkedin, faXTwitter } from "@fortawesome/free-brands-svg-icons";
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -109,7 +129,7 @@ const faqs = [
 
 export default function Home() {
   return (
-    <main className="flex flex-col justify-between">
+    <main className="flex flex-col justify-between items-center">
       <Nav />
       <header className="w-full h-[100dvh] flex justify-between items-center relative p-8">
         <MemoBackgroundGrid className="absolute top-0 left-0 w-full -z-0 opacity-15" />
@@ -254,9 +274,10 @@ export default function Home() {
             </section>
           </div>
         </section>
-        <section className="bg-[#FAFAFA] min-h-[100dvh] flex flex-col justify-evenly items-center p-5">
+        <section className="bg-[#FAFAFA] min-h-[100dvh] flex flex-col justify-evenly items-center p-5 relative">
+          <Image src={Splash} alt="splash illustration" className="absolute top-0 left-[85%] z-0"/>
           <h2 className="text-4xl font-semibold">Frequently Asked Questions</h2>
-          <section className="w-full grid grid-cols-2 justify-evenly p-6 space-x-8">
+          <section className="w-full grid grid-cols-2 justify-evenly p-6 space-x-8 relative z-10">
           <Accordion type="single" collapsible className="p-5">
             {
               faqs.map((faq, index) => (
@@ -270,31 +291,154 @@ export default function Home() {
             }
             
           </Accordion>
-          <Card>
-              <CardHeader>
-                <MemoQuestionIllustration />
-                <p>Feel free to contact us with any questions or inquiries.</p>
+          <Card className="space-y-16">
+              <CardHeader className="">
+                <MemoQuestionIllustration className="mx-auto" />
+                <p className="text-center">Feel free to contact us with any questions or inquiries.</p>
               </CardHeader>    
               <CardContent>
-                <form>
-                  <div>
-                    <Label htmlFor="fullname">Full name</Label>
-                    <Input name="fullname" id="fullname" type="text" placeholder=""/>
+                <form className="flex flex-col items-center justify-between space-y-16">
+                  <div className="w-full flex flex-col items-start justify-evenly space-y-2">
+                    <Label htmlFor="fullname" className="font-semibold text-lg">Full name</Label>
+                    <Input className="w-full" name="fullname" id="fullname" type="text" placeholder=""/>
                   </div>
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input name="email" id="email" type="email"/>
+                  <div className="w-full flex flex-col items-start justify-evenly space-y-2">
+                    <Label htmlFor="email" className="font-semibold text-lg">Email</Label>
+                    <Input className="w-full" name="email" id="email" type="email"/>
                   </div>
-                  <div>
-                    <Label>Write your question</Label>
-                    <Textarea />
+                  <div className="w-full flex flex-col items-start justify-evenly space-y-2">
+                    <Label htmlFor="message" className="font-semibold text-lg" >Write your question</Label>
+                    <Textarea className="w-full" id="message" rows={5}  />
                   </div>
+                  <Button variant="default" className="p-7 text-lg bg-quivyPurple">Submit Now</Button>
                 </form>  
               </CardContent>
           </Card>
           </section>
+          <Image src={Spiral} alt="spiral illustration" className="absolute top-[90%] z-0 w-24 -left-0" />
+        </section>
+        <section className="w-full h-[100dvh] grid grid-cols-1 grid-row-[1_0.5] relative">
+          <div className="w-full h-full">
+            <Phone className="absolute top-16 left-20" />
+            </div>
+          <div className="w-full h-full bg-quivyPurple/30">
+            <article className="w-[800px] relative left-2/4 top-32 grid grid-cols-2 grid-rows-2 justify-evenly items-center space-x-8">
+              <h2 className="text-4xl font-semibold text-center">Get <span className="text-quivyPurple"> Quivy</span> on Play Store or App Store</h2>
+              <div className="flex space-x-4 items-center row-start-2 row-end-3 col-start-1 col-end-2">
+                <Button variant="default" className="flex items-center p-8 rounded-lg">
+                  <Image src={appleLogo} alt="" className="w-10" />
+                  <article className="flex flex-col items-center">
+                    <small className="">Download on the</small>
+                    <p className="text-lg">App Store</p>
+                  </article>
+                </Button>
+                <Button variant="default" className="flex items-center p-8 rounded-lg">
+                  <Image src={googleLogo} alt="" className="w-10" />
+                  <article className="flex flex-col item-center">
+                    <small>Get it on</small>
+                    <p className="text-lg">Google Play</p>
+                  </article>
+                </Button>
+              </div>
+              <div className="p-2 bg-white w-fit row-start-2 row-end-3 col-start-2 col-end-3">
+              <QrCode className="" />
+              </div>
+            </article>
+          </div>
         </section>
       </main>
+      <footer className="text-white mt-[300px] bg-quivyPurple w-full h-[100vh] flex flex-col justify-between items-center">
+        <div className="w-full p-12 grid grid-cols-3 grid-rows-1 items-start justify-center relative top-1/4">
+          <article className="flex flex-col items-start justify-between space-y-8">
+            <Image src={QuviyLogo} alt="quivy logo in qhite" className="" />
+            <p className="max-w-[300px] text-lg">Create a giveaway to make your event more exciting and engaging. Offer any item as a prize and attract more participants effortlessly. Manage and track your giveaway seamlessly with Quivy!</p>
+            <div className="flex items-center">
+              <Input type="text" className="rounded-full p-6 w-[300px] bg-white" placeholder="&#9993; Your email address" />
+              <Button variant="default" className="bg-quivyPurple rounded-full relative -left-28">Create Event</Button>
+            </div>
+          </article>   
+          <div className="flex justify-between items-start space-x-6 text-sm">
+            <ul className="flex flex-col items-start justify-between space-y-3">
+              <li className="font-semibold text-xl">Quick Links</li>
+              <li>
+                <Link href="">Home</Link>
+              </li>
+              <li>
+                <Link href="">Benefits</Link>
+              </li>
+              <li>
+                <Link href="">FAQs</Link>
+              </li>
+              <li>
+                <Link href="">Sign in</Link>
+              </li>
+              <li>
+                <Link href="">Create Account</Link>
+              </li>
+              <li>
+                <Link href="">Download App</Link>
+              </li>
+            </ul>
+            <ul className="flex flex-col items-start justify-between space-y-3">
+              <li className="font-semibold text-xl">Resources</li>
+              <li>
+                <Link href="">Blogs</Link>
+              </li>
+              <li>
+                <Link href="">Mission</Link>
+              </li>
+              <li>
+                <Link href="">Vision</Link>
+              </li>
+              <li>
+                <Link href="">About us</Link>
+              </li>
+            </ul>
+            <ul className="flex flex-col items-start justify-between space-y-3">
+              <li className="font-semibold text-xl">Support</li>
+              <li>
+                <Link href="">Help Center</Link>
+              </li>
+              <li>
+                <Link href="">How it works</Link>
+              </li>
+              <li>
+                <Link href="">User guide</Link>
+              </li>
+              <li>
+                <Link href="">Terms of service</Link>
+              </li>
+              <li>
+                <Link href="">Contact us</Link>
+              </li>
+            </ul>
+           </div>
+          <div className="flex flex-col items-start justify-center space-y-5 justify-self-center">
+            <h3>Socials</h3>
+            <ul className="flex items-center justify-center space-x-4">
+              <li className="bg-white rounded-full p-2 w-fit h-fit flex items-center justify-center">
+                <FontAwesomeIcon icon={faInstagramSquare} size="lg" className="text-quivyPurple"/>
+              </li>
+              <li className="bg-white rounded-full p-2 w-fit h-fit flex items-center justify-center">
+                <FontAwesomeIcon icon={faXTwitter} size="lg" className="text-quivyPurple"/>
+              </li>
+              <li className="bg-white rounded-full p-2 w-fit h-fit flex items-center justify-center">
+                <FontAwesomeIcon icon={faFacebook} size="lg" className="text-quivyPurple"/>
+              </li>
+              <li className="bg-white rounded-full p-2 w-fit h-fit flex items-center justify-center">
+                <FontAwesomeIcon icon={faLinkedin} size="lg" className="text-quivyPurple"/>
+              </li>
+            </ul>
+           </div>
+        </div>
+        <div className="w-full flex justify-between items-center border-t-2 border-t-white p-3 font-light">
+          <p>&copy;2025 Quivy. All Rights Reserved</p>
+          <p>
+            <Link href="">Terms and Conditions.</Link>
+            <Link href="">Privacy Policy</Link>
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }

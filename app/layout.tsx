@@ -4,7 +4,6 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import "./globals.css";
 import { verifySession } from "@/utils/dal";
-import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 
@@ -12,6 +11,10 @@ import Footer from "@/components/Footer";
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
 // });
+
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
 
 const inriaSans = Inria_Sans({
   weight: ["300", "400", "700"],
