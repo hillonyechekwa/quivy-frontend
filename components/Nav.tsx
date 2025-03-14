@@ -4,7 +4,7 @@ import Link from "next/link"
 import { buttonVariants } from "./ui/button"
 import Logo from "@/public/assets/Logo-white.png"
 import Image from "next/image"
-import {useState} from 'react'
+// import {useState} from 'react'
 import { usePathname } from "next/navigation"
 import { useResponsive } from "@/hooks/use-responsive"
 
