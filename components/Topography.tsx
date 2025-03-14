@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function Topography(props) {
+function Topography(props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) {
   return (
     <svg width={324} height={483} fill="none" {...props}>
       <g
