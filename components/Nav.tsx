@@ -13,7 +13,7 @@ import { useResponsive } from "@/hooks/use-responsive"
 
 const Nav = () => { 
     const pathname = usePathname()
-    const [toggleNav, setToggleNav] = useState(false)
+    // const [toggleNav, setToggleNav] = useState(false)
     
   const isMobile = useResponsive("(max-width: 600px)")
   
@@ -22,9 +22,9 @@ const Nav = () => {
     }
 
 
-    const handleNavToggle = () => {
-      setToggleNav(!toggleNav)
-  }
+  //   const handleNavToggle = () => {
+  //     setToggleNav(!toggleNav)
+  // }
 
     return (
         <nav className="bg-quivyPurple text-white w-full p-2 flex justify-between items-center font-[family-name:var(--font-inria-sans)] relative">

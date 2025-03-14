@@ -10,12 +10,12 @@ import { Button } from '@/components/ui/button';
 import Spiral from "@/public/assets/illustrations/spiral.png";
 import Splash from "@/public/assets/illustrations/splash.png";
 import MemoQuestionIllustration from '@/components/QuestionIllustration';
-import { useResponsive } from '@/hooks/use-responsive';
+// import { useResponsive } from '@/hooks/use-responsive';
 
 
 
 const FAQS = () => {
-    const isMobile = useResponsive("(max-width: 600px)")
+    // const isMobile = useResponsive("(max-width: 600px)")
     
     const faqs = [
         {
