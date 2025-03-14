@@ -54,82 +54,105 @@ const FAQS = () => {
 
     
   return (
-      <section className="bg-[#FAFAFA] min-h-[100dvh] flex flex-col justify-evenly items-center p-5 relative">
+      <section className="bg-[#FAFAFA] min-h-screen flex flex-col justify-evenly items-center p-4 md:p-8 relative overflow-hidden">
+          {/* Splash Illustration */}
           <Image
               src={Splash}
               alt="splash illustration"
-              className="w-32 absolute top-0 left-0 md:left-[85%] z-0"
+              className="w-24 md:w-32 absolute top-0 left-0 md:left-auto md:right-[5%] z-0 opacity-70"
           />
-          <h2 className="text-4xl font-semibold">Frequently Asked Questions</h2>
-          <section className="w-full grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 justify-evenly p-6 space-x-8 relative z-10">
-              <Accordion type="single" collapsible className="p-5 justify-self-center">
+
+          <h2 className="text-3xl md:text-4xl font-semibold text-center mb-6 md:mb-10">
+              Frequently Asked Questions
+          </h2>
+
+          <div className="w-full max-w-7xl flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-8 px-4 md:px-6 relative z-10">
+              {/* FAQ Accordion */}
+              <Accordion type="single" collapsible className="w-full space-y-4">
                   {faqs.map((faq, index) => (
                       <AccordionItem
                           key={`item-${index}`}
                           value={`item-${index}`}
-                          className="mb-3 shadow-sm bg-white rounded-md p-4"
+                          className="rounded-lg bg-white shadow-sm"
                       >
-                          <AccordionTrigger className="font-medium text-2xl capitalize">
+                          <AccordionTrigger className="font-medium text-lg md:text-xl px-4 py-3">
                               {faq.q}
                           </AccordionTrigger>
-                          <AccordionContent>{faq.a}</AccordionContent>
+                          <AccordionContent className="px-4 pb-3 text-base">
+                              {faq.a}
+                          </AccordionContent>
                       </AccordionItem>
                   ))}
               </Accordion>
-              <Card className="space-y-16 ">
-                  <CardHeader className="w-full flex flex-col justify-center items-center">
-                      <MemoQuestionIllustration className="" viewBox={`0 0 ${isMobile ? `350` : `298`} ${isMobile ? `350` : `298`}`} preserveAspectRatio="none" />
-                      <p className="text-center">
+
+              {/* Contact Card */}
+              <Card className="w-full h-fit shadow-lg">
+                  <CardHeader className="flex flex-col items-center space-y-6">
+                      <MemoQuestionIllustration
+                          className="w-[200px] h-[200px] md:w-[250px] md:h-[250px]"
+                          viewBox="0 0 350 350"
+                          preserveAspectRatio="xMidYMid meet"
+                      />
+                      <p className="text-center text-gray-600 md:text-lg">
                           Feel free to contact us with any questions or inquiries.
                       </p>
                   </CardHeader>
+
                   <CardContent>
-                      <form className="flex flex-col items-center justify-between space-y-16">
-                          <div className="w-full flex flex-col items-start justify-evenly space-y-2">
-                              <Label htmlFor="fullname" className="font-semibold text-lg">
+                      <form className="flex flex-col space-y-6 md:space-y-8">
+                          <div className="space-y-4">
+                              <Label htmlFor="fullname" className="text-base md:text-lg">
                                   Full name
                               </Label>
                               <Input
-                                  className="w-full py-5"
+                                  className="h-12 md:h-14 text-base"
                                   name="fullname"
                                   id="fullname"
                                   type="text"
-                                  placeholder=""
                               />
                           </div>
-                          <div className="w-full flex flex-col items-start justify-evenly space-y-2">
-                              <Label htmlFor="email" className="font-semibold text-lg">
+
+                          <div className="space-y-4">
+                              <Label htmlFor="email" className="text-base md:text-lg">
                                   Email
                               </Label>
                               <Input
-                                  className="w-full py-5"
+                                  className="h-12 md:h-14 text-base"
                                   name="email"
                                   id="email"
                                   type="email"
                               />
                           </div>
-                          <div className="w-full flex flex-col items-start justify-evenly space-y-2">
-                              <Label htmlFor="message" className="font-semibold text-lg">
+
+                          <div className="space-y-4">
+                              <Label htmlFor="message" className="text-base md:text-lg">
                                   Write your question
                               </Label>
-                              <Textarea className="w-full" id="message" rows={5} />
+                              <Textarea
+                                  className="text-base min-h-[120px]"
+                                  id="message"
+                              />
                           </div>
+
                           <Button
                               variant="default"
-                              className="p-7 text-lg bg-quivyPurple"
+                              className="w-full py-6 text-base md:text-lg bg-quivyPurple hover:bg-quivyPurple/90"
                           >
                               Submit Now
                           </Button>
                       </form>
                   </CardContent>
               </Card>
-          </section>
+          </div>
+
+          {/* Spiral Illustration */}
           <Image
               src={Spiral}
               alt="spiral illustration"
-              className="absolute top-[90%] z-0 w-24 -left-0"
+              className="w-20 md:w-24 absolute bottom-0 left-0 md:bottom-[5%] md:left-[5%] z-0 opacity-70"
           />
       </section>
+
   )
 }
 

@@ -1,34 +1,35 @@
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import Image, {StaticImageData} from 'next/image'
-import useResponsive from "@/hooks/use-responsive"
-
+import Image from "next/image"
+import { cn } from "@/lib/utils"
+import { Card, CardContent } from "@/components/ui/card"
+import { StaticImageData } from "next/image"
 
 interface AppBenefitsProps {
-  img: StaticImageData;
-  title: string;
-  description: string;
-  color: string,
-  classname?: string
+  img: StaticImageData
+  title: string
+  description: string
+  color: string
 }
 
-const AppBenefits = ({ img, title, description, color, classname }: AppBenefitsProps) => {
-
-  const isMobile = useResponsive('(max-width: 450px)')
-
-
+export default function AppBenefits({ img, title, description, color }: AppBenefitsProps) {
   return (
-    <Card className={`${classname} w-[120px] md:w-[350px] p-2 md:p-8`}>
-          <CardHeader className="">
-              <div className={`w-[30px] md:w-[40px] rounded-full p-2 ${color} flex justify-center items-center`}>
-                <Image src={img.src} width={`${isMobile ? 15 : 30}`} height={`${isMobile ? 15 : 30}`} alt="" className="" />  
-              </div>
-              <CardTitle className="text-xs md:text-md">{title}</CardTitle>
-          </CardHeader>      
-          <CardContent className="p-0 md:p-6">
-              <p className="max-w-[200px] text-[8px] md:text-xs">{description}</p>
-          </CardContent>
+    <Card className="group overflow-hidden transition-all hover:shadow-md">
+      <CardContent className="p-6">
+        <div className="flex gap-4">
+          <div className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-full", color)}>
+            <Image
+              src={img || "/placeholder.svg?height=24&width=24"}
+              alt={title}
+              width={24}
+              height={24}
+              className="h-6 w-6 object-contain brightness-0 invert"
+            />
+          </div>
+          <div className="space-y-2">
+            <h3 className="font-semibold">{title}</h3>
+            <p className="text-sm text-muted-foreground">{description}</p>
+          </div>
+        </div>
+      </CardContent>
     </Card>
   )
 }
-
-export default AppBenefits

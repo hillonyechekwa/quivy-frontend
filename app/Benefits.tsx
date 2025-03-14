@@ -57,49 +57,61 @@ const Benefits = () => {
 
     return (
         <>
-            <section className="w-full h-[100dvh] flex flex-col-reverse md:grid md:grid-cols-[1fr_0.5fr] justify-center items-center relative p-6">
-                {/* <MemoRotatingOrbs className="absolute top-0 left-2/4 -z-0"/> */}
-                <div className="flex justify-center items-center space-x-8 p-5 relative z-20">
-                    <div className="grid grid-rows-2 grid-cols-1 gap-7">
-                        {benefitsImgs.slice(0, 3).map((benefit) => (
-                            <AppBenefits
-                                key={benefit.id}
-                                img={benefit.img}
-                                title={benefit.title}
-                                description={benefit.description}
-                                color={benefit.color}
-                            />
-                        ))}
+            <section className="container relative mx-auto px-4 py-16 md:py-24">
+                <div className="grid gap-12 lg:grid-cols-[1fr_400px] lg:gap-16">
+                    {/* Benefits Cards */}
+                    <div className="order-2 lg:order-1">
+                        <div className="grid gap-6 sm:grid-cols-2">
+                            <div className="space-y-6">
+                                {benefitsImgs.slice(0, 3).map((benefit) => (
+                                    <AppBenefits
+                                        key={benefit.id}
+                                        img={benefit.img}
+                                        title={benefit.title}
+                                        description={benefit.description}
+                                        color={benefit.color}
+                                    />
+                                ))}
+                            </div>
+                            <div className="space-y-6 pt-0 sm:pt-12">
+                                {benefitsImgs.slice(3).map((benefit) => (
+                                    <AppBenefits
+                                        key={benefit.id}
+                                        img={benefit.img}
+                                        title={benefit.title}
+                                        description={benefit.description}
+                                        color={benefit.color}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                    <div className="grid grid-rows-2 grid-cols-1 gap-7">
-                        {benefitsImgs.slice(-2).map((benefit) => (
-                            <AppBenefits
-                                key={benefit.id}
-                                img={benefit.img}
-                                title={benefit.title}
-                                description={benefit.description}
-                                color={benefit.color}
-                            />
-                        ))}
+
+                    {/* Section Title */}
+                    <div className="order-1 lg:order-2">
+                        <div className="sticky top-24 space-y-4">
+                            <small className="text-quivyOrange text-sm font-medium">
+                                <span className="text-quivyPurple">-</span> Benefits
+                            </small>
+                            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl">
+                                Why <span className="text-quivyPurple">Quivy</span> your giveaway with us?
+                            </h2>
+                        </div>
                     </div>
-                </div>
-                <div className="justify-self-end relative z-20 left-24 top-20 md:top-0 md:left-0">
-                    <small className="text-quivyOrange text-xs font-medium">
-                        {" "}
-                        <span className="text-quivyPurple"> - </span> Benefits{" "}
-                    </small>
-                    <h2 className="text-2xl md:text-5xl max-w-[200px] md:max-w-[400px] font-semibold capitalize">
-                        Why <span className="text-quivyPurple">Quivy</span> your giveaway
-                        with us?
-                    </h2>
                 </div>
             </section>
-            <section className="relative w-full h-[50dvh] bg-[#F1ECFF]">
-                <Image
-                    src={BenefitIllustration}
-                    alt=""
-                    className=" w-[250px] md:w-[700px] absolute md:-top-60 md:left-1/2 md:mx-3"
-                />
+
+            {/* Illustration Section */}
+            <section className="relative bg-[#F1ECFF] py-32 md:py-40">
+                <div className="container relative mx-auto px-4">
+                    <Image
+                        src={BenefitIllustration}
+                        alt="Benefits Illustration"
+                        width={700}
+                        height={700}
+                        className="absolute left-1/2 top-0 w-[280px] -translate-x-1/2 -translate-y-1/2 md:w-[500px] lg:w-[700px]"
+                    />
+                </div>
             </section>
         </>
     )

@@ -15,7 +15,13 @@ const CommingSoon = () => {
   return (
       <section className="w-full h-[100dvh] grid grid-cols-1 grid-row-[1_0.5] relative">
           <div className="w-full h-full">
-              <Phone className="w-full absolute top-16 md:left-20" viewBox={`0 0 ${isMobile ? `1100` : `1700`} ${isMobile ? `1250` : `800`}`} preserveAspectRatio="none" />
+              {
+                  !isMobile 
+                      ? 
+                      <Phone className="w-full absolute top-16" viewBox={`0 0 ${isMobile ? `1100` : `1500`} ${isMobile ? `1250` : `800`}`} preserveAspectRatio="none" />
+                      :
+                      <Phone className="w-full absolute top-16" viewBox={`0 0 ${isMobile ? `1100` : `1500`} ${isMobile ? `1250` : `800`}`} preserveAspectRatio="none" />
+              }
           </div>
           <div className="w-full h-full bg-quivyPurple/30">
               <article className="w-[300px] md:w-[700px] relative md:left-2/4 top-60 md:top-32 grid grid-cols-2 md:grid-cols-2 md:grid-rows-2 justify-evenly items-center space-x-8">
@@ -23,7 +29,7 @@ const CommingSoon = () => {
                       Get <span className="text-quivyPurple"> Quivy</span> on Play
                       Store or App Store
                   </h2>
-                  <div className="flex space-x-4 items-center row-start-2 row-end-3 col-start-1 col-end-2">
+                  <div className="flex md:flex-row flex-col space-x-4 items-center row-start-2 row-end-3 col-start-1 col-end-2">
                       <Button
                           variant="default"
                           className="flex items-center p-8 rounded-lg"

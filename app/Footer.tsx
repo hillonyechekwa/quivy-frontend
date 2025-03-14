@@ -9,132 +9,106 @@ import Image from 'next/image'
 import { Input } from '@/components/ui/input';
 
 const Footer = () => {
-  return (
-      <footer className="text-white mt-[300px] bg-quivyPurple w-full min-h-[100vh] md:h-[100vh] flex flex-col justify-between items-center relative">
-          <MemoBackgroundGrid className="absolute top-0 left-0 w-full -z-0 opacity-15 h-full" />
+    return (
+        <footer className="text-white bg-quivyPurple w-full min-h-screen flex flex-col justify-between relative pt-20 pb-8 px-4 md:px-12">
+            <MemoBackgroundGrid className="absolute top-0 left-0 w-full h-full opacity-15 -z-10" />
 
-          <div className="w-full p-6 md:p-12 grid grid-cols-1 grid-rows-3 md:grid-cols-3 md:grid-rows-1 items-start space-y-7 justify-center relative top-1/4 z-10">
-              <article className="flex flex-col items-start justify-between space-y-8 relative z-10">
-                  <Image src={QuviyLogo} alt="quivy logo in qhite" className="" />
-                  <p className="max-w-[300px] text-lg">
-                      Create a giveaway to make your event more exciting and engaging.
-                      Offer any item as a prize and attract more participants
-                      effortlessly. Manage and track your giveaway seamlessly with
-                      Quivy!
-                  </p>
-                  <div className="flex items-center">
-                      <Input
-                          type="text"
-                          className="rounded-full p-6 w-[300px] bg-white"
-                          placeholder="&#9993; Your email address"
-                      />
-                      <Button
-                          variant="default"
-                          className="bg-quivyPurple rounded-full relative -left-28"
-                      >
-                          Create Event
-                      </Button>
-                  </div>
-              </article>
-              <div className="flex flex-col md:flex-row justify-between items-start space-y-8 md:space-x-6 text-sm">
-                  <ul className="flex flex-col items-start justify-between space-y-3">
-                      <li className="font-semibold text-xl">Quick Links</li>
-                      <li>
-                          <Link href="">Home</Link>
-                      </li>
-                      <li>
-                          <Link href="">Benefits</Link>
-                      </li>
-                      <li>
-                          <Link href="">FAQs</Link>
-                      </li>
-                      <li>
-                          <Link href="">Sign in</Link>
-                      </li>
-                      <li>
-                          <Link href="">Create Account</Link>
-                      </li>
-                      <li>
-                          <Link href="">Download App</Link>
-                      </li>
-                  </ul>
-                  <ul className="flex flex-col items-start justify-between space-y-3">
-                      <li className="font-semibold text-xl">Resources</li>
-                      <li>
-                          <Link href="">Blogs</Link>
-                      </li>
-                      <li>
-                          <Link href="">Mission</Link>
-                      </li>
-                      <li>
-                          <Link href="">Vision</Link>
-                      </li>
-                      <li>
-                          <Link href="">About us</Link>
-                      </li>
-                  </ul>
-                  <ul className="flex flex-col items-start justify-between space-y-3">
-                      <li className="font-semibold text-xl">Support</li>
-                      <li>
-                          <Link href="">Help Center</Link>
-                      </li>
-                      <li>
-                          <Link href="">How it works</Link>
-                      </li>
-                      <li>
-                          <Link href="">User guide</Link>
-                      </li>
-                      <li>
-                          <Link href="">Terms of service</Link>
-                      </li>
-                      <li>
-                          <Link href="">Contact us</Link>
-                      </li>
-                  </ul>
-              </div>
-              <div className="flex flex-col items-start justify-start md:justify-center space-y-5 md:justify-self-center">
-                  <h3>Socials</h3>
-                  <ul className="flex items-center justify-center space-x-4">
-                      <li className="bg-white rounded-full w-10 h-10 p-2 w-fit h-fit flex items-center justify-center">
-                          <FontAwesomeIcon
-                              icon={faInstagramSquare}
-                              size="lg"
-                              className="text-quivyPurple"
-                          />
-                      </li>
-                      <li className="bg-white rounded-full w-10 h-10 p-2 w-fit h-fit flex items-center justify-center">
-                          <FontAwesomeIcon
-                              icon={faXTwitter}
-                              size="lg"
-                              className="text-quivyPurple"
-                          />
-                      </li>
-                      <li className="bg-white rounded-full w-10 h-10 p-2 w-fit h-fit flex items-center justify-center">
-                          <FontAwesomeIcon
-                              icon={faFacebook}
-                              size="lg"
-                              className="text-quivyPurple"
-                          />
-                      </li>
-                      <li className="bg-white rounded-full w-10 h-10 p-2 w-fit h-fit flex items-center justify-center">
-                          <FontAwesomeIcon
-                              icon={faLinkedin}
-                              size="lg"
-                              className="text-quivyPurple"
-                          />
-                      </li>
-                  </ul>
-              </div>
-          </div>
-          <div className="w-full flex justify-between items-center border-t-2 border-t-white p-3 font-light">
-              <p>&copy;2025 Quivy. All Rights Reserved</p>
-              <p className="space-x-5">
-                  <Link href="">Terms and Conditions.</Link>
-                  <Link href="">Privacy Policy</Link>
-              </p>
-          </div>
-          </footer>
-  )
+            {/* Main Content Container */}
+            <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 mb-12">
+                {/* Left Column (Logo + Form) */}
+                <div className="flex-1 flex flex-col gap-8 pr-0 lg:pr-12">
+                    <Image
+                        src={QuviyLogo}
+                        alt="Quivy logo"
+                        className="w-40 md:w-48"
+                    />
+                    <p className="text-lg max-w-md">
+                        Create a giveaway to make your event more exciting and engaging.
+                        Offer any item as a prize and attract more participants
+                        effortlessly. Manage and track your giveaway seamlessly with
+                        Quivy!
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-4 max-w-md">
+                        <Input
+                            type="email"
+                            placeholder="&#9993; Your email address"
+                            className="rounded-full py-6 bg-white/90 flex-1"
+                        />
+                        <Button
+                            variant="default"
+                            className="rounded-full px-8 py-6 bg-quivyPurple hover:bg-quivyPurple/90 whitespace-nowrap"
+                        >
+                            Create Event
+                        </Button>
+                    </div>
+                </div>
+
+                {/* Right Columns (Links) */}
+                <div className="flex-[2] grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12">
+                    {/* Quick Links */}
+                    <div className="flex flex-col gap-3">
+                        <h3 className="text-xl font-semibold mb-2">Quick Links</h3>
+                        <Link href="">Home</Link>
+                        <Link href="">Benefits</Link>
+                        <Link href="">FAQs</Link>
+                        <Link href="">Sign in</Link>
+                        <Link href="">Create Account</Link>
+                        <Link href="">Download App</Link>
+                    </div>
+
+                    {/* Resources */}
+                    <div className="flex flex-col gap-3">
+                        <h3 className="text-xl font-semibold mb-2">Resources</h3>
+                        <Link href="">Blogs</Link>
+                        <Link href="">Mission</Link>
+                        <Link href="">Vision</Link>
+                        <Link href="">About us</Link>
+                    </div>
+
+                    {/* Support */}
+                    <div className="flex flex-col gap-3">
+                        <h3 className="text-xl font-semibold mb-2">Support</h3>
+                        <Link href="">Help Center</Link>
+                        <Link href="">How it works</Link>
+                        <Link href="">User guide</Link>
+                        <Link href="">Terms of service</Link>
+                        <Link href="">Contact us</Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom Section */}
+            <div className="w-full max-w-7xl mx-auto border-t border-white/20 pt-8">
+                <div className="flex flex-col md:flex-row justify-between gap-6">
+                    {/* Social Links */}
+                    <div className="flex justify-center md:justify-start gap-4 order-2 md:order-1">
+                        {[faInstagramSquare, faXTwitter, faFacebook, faLinkedin].map((icon, index) => (
+                            <Link
+                                key={index}
+                                href="#"
+                                className="bg-white rounded-full p-2 w-10 h-10 flex items-center justify-center"
+                            >
+                                <FontAwesomeIcon
+                                    icon={icon}
+                                    className="text-quivyPurple text-lg"
+                                />
+                            </Link>
+                        ))}
+                    </div>
+
+                    {/* Copyright + Legal */}
+                    <div className="flex flex-col md:flex-row items-center gap-4 order-1 md:order-2 text-center md:text-left">
+                        <p>&copy;2025 Quivy. All Rights Reserved</p>
+                        <div className="flex gap-4">
+                            <Link href="">Terms and Conditions</Link>
+                            <Link href="">Privacy Policy</Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    )
 }
 
 export default Footer
