@@ -43,7 +43,7 @@ export default async function RootLayout({
 
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inriaSans.variable} antialiased flex flex-col`}
       >{isAuth && (

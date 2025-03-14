@@ -20,7 +20,8 @@ export async function SignUp(prevState: FormState, formData: FormData): Promise<
 
 
     const payload = Object.fromEntries(formData)
-
+    
+    console.log('payload', payload)
 
     const validatedFields = AuthFormSchema.safeParse(payload)
 

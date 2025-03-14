@@ -13,7 +13,7 @@ interface AppBenefitsProps {
 
 const AppBenefits = ({ img, title, description, color, classname }: AppBenefitsProps) => {
   return (
-    <Card className={`${classname} w-[350px] p-8`}>
+    <Card className={`${classname} w-[200px] md:w-[350px] p-2 md:p-8`}>
           <CardHeader className="">
               <div className={`w-[40px] rounded-full p-2 ${color} flex justify-center items-center`}>
                 <Image src={img.src} width={30} height={30}  alt="" className="" />  
