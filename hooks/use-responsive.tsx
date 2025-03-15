@@ -21,7 +21,9 @@ export const useResponsive = (query: string): boolean => {
   const [matches, setMatches] = useState<boolean>(getMatches(query));
 
   const handleChange = useCallback(() => {
-    setMatches(getMatches(query));
+    if (typeof window !== "undefined") {
+      setMatches(getMatches(query));
+    }
   }, [query]);
 
   useEffect(() => {
