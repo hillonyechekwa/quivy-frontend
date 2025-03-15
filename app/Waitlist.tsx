@@ -1,9 +1,55 @@
 "use client"
+import {useState } from "react"
 import MemoBackgroundGrid from "@/components/BackgroundGrid"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-const Subscribequivy = () => {
+// import toast
+
+
+interface WaitlistRes {
+    success?: boolean,
+    error?: string
+}
+
+const Waitlist = () => {
+    const [email, setEmail] = useState<string>("")
+    const [sending, setSending] = useState<boolean>(false)
+    const [status, setStatus] = useState<string>("")
+
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+        e.preventDefault()
+        setSending(true)
+        setStatus("")
+
+
+        try {
+            const response = await fetch('/api/waitlist', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email})
+            })
+
+            const data = response.json() as WaitlistRes
+
+            if (response.ok) {
+                setStatus("success")
+                setEmail("")
+            }else{
+                setStatus(`error: ${data.error || "Unknown error"}`)
+            }
+        } catch (error) {
+            console.error(error)
+            setStatus(`error: Failed to submit`)
+        } finally {
+            setSending(false)
+        }
+
+    }
+
+
     return (
         <section className="w-full relative flex flex-col justify-center items-center space-y-6 p-6 md:p-12 bg-white min-h-[400px]">
             <MemoBackgroundGrid className="absolute top-0 left-0 w-full -z-0 opacity-15 h-full" />
@@ -34,18 +80,30 @@ const Subscribequivy = () => {
                         type="email"
                         className="rounded-full py-5 px-10 w-full bg-white border border-gray-200 text-center md:text-left shadow-sm"
                         placeholder="Enter your email address"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <Button
                         variant="default"
                         className="bg-[#8257FF] hover:bg-[#6a46d1] rounded-full px-6 py-2 w-full md:w-auto mt-3 md:mt-0 md:absolute md:right-1 md:top-1/2 md:-translate-y-1/2"
-                    >
-                        Join Waitlist
+                        onClick={handleSubmit}
+                    >{
+                            sending ? "Sending..." : "Join Waitlist"
+                    }
                     </Button>
+
+                    {status === 'success' && (
+                        <p className="mt-2 text-green-600 text-sx">Thanks! You&apos;ve been added to our waitlist.</p>
+                    )}
+
+                    {/* {status.includes('error') && (
+                        <p className="mt-2 text-red-600 text-xs">{status}</p>
+                    )} */}
                 </div>
             </div>
         </section>
     )
 }
 
-export default Subscribequivy
+export default Waitlist
 

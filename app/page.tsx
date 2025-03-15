@@ -4,7 +4,7 @@ import Nav from "@/components/Nav";
 import Hero from "./Hero";
 import Howitworks from "./Howitworks";
 import Benefits from "./Benefits";
-import Subscribequivy from "./Subscribequivy";
+import Subscribequivy from "./Waitlist";
 import Aboutquivy from "./Aboutquivy";
 import FAQS from "./FAQS";
 import CommingSoon from "./CommingSoon";
