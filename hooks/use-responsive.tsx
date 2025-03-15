@@ -25,18 +25,21 @@ export const useResponsive = (query: string): boolean => {
   }, [query]);
 
   useEffect(() => {
-    const matchMedia = window.matchMedia(query);
+    // Only run on the client side
+    if (typeof window !== "undefined") {
+      const matchMedia = window.matchMedia(query);
 
-    // Set initial value
-    handleChange();
+      // Set initial value
+      handleChange();
 
-    // Add listener for subsequent changes
-    matchMedia.addEventListener("change", handleChange);
+      // Add listener for subsequent changes
+      matchMedia.addEventListener("change", handleChange);
 
-    // Clean up listener on component unmount
-    return () => {
-      matchMedia.removeEventListener('change', handleChange);
-    };
+      // Clean up listener on component unmount
+      return () => {
+        matchMedia.removeEventListener('change', handleChange);
+      };
+    }
   }, [query, handleChange]);
 
   return matches;
