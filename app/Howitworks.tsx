@@ -7,6 +7,10 @@ import shareEventImg from "@/public/assets/illustrations/QR Code-pana 1shareeven
 import trackEventImg from "@/public/assets/illustrations/Frame 1038trackevent.png";
 import React from 'react'
 import { useResponsive } from '@/hooks/use-responsive';
+import HeroVid from "../public/assets/video/hero.mov"
+
+
+
 
 const Howitworks = () => {
     const isMobile = useResponsive("(max-width: 768px)");

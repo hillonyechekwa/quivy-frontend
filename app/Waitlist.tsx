@@ -3,6 +3,8 @@ import {useState } from "react"
 import MemoBackgroundGrid from "@/components/BackgroundGrid"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 
 // import toast
 
@@ -75,7 +77,7 @@ const Waitlist = () => {
 
             <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 w-full max-w-[600px] relative z-10">
                 <div className="relative w-full">
-                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">✉</div>
+                        <FontAwesomeIcon icon={faEnvelope} className="text-gray-300 absolute left-4 top-4 sm:-translate-y-1/2"/>
                     <Input
                         type="email"
                         className="rounded-full py-5 px-10 w-full bg-white border border-gray-200 text-center md:text-left shadow-sm"
@@ -92,6 +94,7 @@ const Waitlist = () => {
                     }
                     </Button>
 
+                </div>
                     {status === 'success' && (
                         <p className="mt-2 text-green-600 text-sx">Thanks! You&apos;ve been added to our waitlist.</p>
                     )}
@@ -99,7 +102,6 @@ const Waitlist = () => {
                     {/* {status.includes('error') && (
                         <p className="mt-2 text-red-600 text-xs">{status}</p>
                     )} */}
-                </div>
             </div>
         </section>
     )

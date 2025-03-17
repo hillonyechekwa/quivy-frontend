@@ -54,7 +54,7 @@ const FAQS = () => {
 
     
   return (
-      <section className="bg-[#FAFAFA] min-h-screen flex flex-col justify-evenly items-center p-4 md:p-8 relative overflow-hidden">
+      <section className="bg-[#FAFAFA] w-full min-h-screen flex flex-col justify-evenly items-center p-4 md:p-6 relative overflow-hidden">
           {/* Splash Illustration */}
           <Image
               src={Splash}

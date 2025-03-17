@@ -102,7 +102,7 @@ const Benefits = () => {
             </section>
 
             {/* Illustration Section */}
-            <section className="relative bg-[#F1ECFF] py-32 md:py-40">
+            <section className="relative bg-[#F1ECFF] py-32 md:py-40 w-full">
                 <div className="container relative mx-auto px-4">
                     <Image
                         src={BenefitIllustration}
