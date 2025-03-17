@@ -77,7 +77,7 @@ const Waitlist = () => {
 
             <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 w-full max-w-[600px] relative z-10">
                 <div className="relative w-full">
-                        <FontAwesomeIcon icon={faEnvelope} className="text-gray-300 absolute left-4 top-4 sm:-translate-y-1/2"/>
+                    <FontAwesomeIcon icon={faEnvelope} className="text-gray-300 absolute left-4 top-4 md:top-5 md:-translate-y-1/2"/>
                     <Input
                         type="email"
                         className="rounded-full py-5 px-10 w-full bg-white border border-gray-200 text-center md:text-left shadow-sm"
