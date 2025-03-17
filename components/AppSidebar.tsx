@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation"
 
 
 interface AppSidebarProps {
-    side: "right" | "left" | undefined; // Replace 'string' with the appropriate type if needed
+    side?: "right" | "left" | undefined; // Replace 'string' with the appropriate type if needed
 }
 
 export const AppSidebar = ({ side }: AppSidebarProps) => {
