@@ -7,7 +7,8 @@ import shareEventImg from "@/public/assets/illustrations/QR Code-pana 1shareeven
 import trackEventImg from "@/public/assets/illustrations/Frame 1038trackevent.png";
 import React from 'react'
 import { useResponsive } from '@/hooks/use-responsive';
-import HeroVid from "../public/assets/video/hero.mov"
+import Video from './Video';
+ 
 
 
 
@@ -84,13 +85,13 @@ const Howitworks = () => {
             </div>
 
             {/* Video Player Section */}
-            <div className="w-full max-w-6xl mt-16 flex justify-center">
-                <div className="w-full md:w-3/4 aspect-video bg-white rounded-lg flex items-center justify-center shadow-sm">
-                    <div className="w-16 h-16 rounded-full border-2 border-gray-800 flex items-center justify-center cursor-pointer">
-                        <div className="w-0 h-0 border-t-8 border-t-transparent border-l-16 border-l-gray-800 border-b-8 border-b-transparent ml-1"></div>
-                    </div>
-                </div>
-            </div>
+            {/* <div className="w-full max-w-6xl mt-16 flex justify-center">
+                <video width="500" height="300" preload="none" autoPlay loop className="w-full md:w-3/4 rounded-lg shadow-md">
+                   <source src="/Hero.mp4" type='video/mp4' />
+                   Your browser doens&apos;t support the video tag
+                </video>
+            </div> */}
+            <Video />
         </section>
     )
 }
