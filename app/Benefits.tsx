@@ -61,7 +61,7 @@ const Benefits = () => {
                 <div className="grid gap-12 lg:grid-cols-[1fr_400px] lg:gap-16">
                     {/* Benefits Cards */}
                     <div className="order-2 lg:order-1">
-                        <div className="grid gap-6 sm:grid-cols-2">
+                        <div className="grid gap-6 grid-cols-2">
                             <div className="space-y-6">
                                 {benefitsImgs.slice(0, 3).map((benefit) => (
                                     <AppBenefits
@@ -73,7 +73,7 @@ const Benefits = () => {
                                     />
                                 ))}
                             </div>
-                            <div className="space-y-6 pt-0 sm:pt-12">
+                            <div className="space-y-6 pt-16 md:pt-12">
                                 {benefitsImgs.slice(3).map((benefit) => (
                                     <AppBenefits
                                         key={benefit.id}
