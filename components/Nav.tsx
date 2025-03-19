@@ -30,7 +30,7 @@ const Nav = () => {
 
   return (
     <nav className="bg-quivyPurple text-white w-full p-2 flex justify-between items-center font-[family-name:var(--font-inria-sans)]">
-      <Image src={Logo} alt="quivy logo" className="w-32" />
+      <Image src={Logo} alt="quivy logo" className="w-20 md:w-32" />
       {
         isMobile &&
         (
@@ -41,7 +41,7 @@ const Nav = () => {
               <span className={`w-full h-[3px] rounded-sm bg-white transition-all duration-300 ease-in-out ${isOpen ? "-translate-y-2.5 -rotate-45 absolute bottom-0" : ""}`}></span>
             </div>
             {isOpen && (
-            <ul className="w-full h-full flex space-y-8 space-x-4 absolute top-16 left-0 flex-col bg-white px-3 py-3 z-30 text-black">
+              <ul className={`${isOpen ? 'fade-in' : 'fade-out'} w-full h-full flex space-y-8 space-x-4 absolute top-16 left-0 flex-col bg-white px-3 py-3 z-30 text-black`}>
                 <li className="flex flex-row space-x-3">
                    <Link href="/auth/signin" className={`${buttonVariants({ variant: "outline" })} text-lg text-black`}>Sign In</Link>
                   <Link href="/auth/signup" className={`${buttonVariants({ variant: "default" })} bg-quivyOrange text-white`} >Create Account</Link>
