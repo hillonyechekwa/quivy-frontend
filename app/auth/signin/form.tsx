@@ -46,13 +46,13 @@ export const SigninForm = () => {
 
 
     return (
-        <CardContent className="rounded-sm p-0 w-auto bg-[#FEFEFE]">
+        <CardContent className="rounded-sm p-0 w-full md:w-auto bg-[#FEFEFE]">
             <form action={formAction} ref={formRef} onSubmit={(e) => {
                 e.preventDefault()
                 handleSubmit(() => {
                     startTransition(() => formAction(new FormData(formRef.current!)))
                 })
-            }} className="flex flex-col justify-between space-y-4">
+            }} className="flex flex-col justify-between items-center space-y-4">
                 {
                     formState?.errors?.error || formState?.errors?.api && (
                         <div className="text-xs w-full p-3 bg-destructive text-white">{formState?.errors.error}</div>
