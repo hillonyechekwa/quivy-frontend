@@ -63,7 +63,7 @@ const FAQS = () => {
               className="w-24 md:w-32 absolute top-0 left-0 md:left-auto md:right-[5%] z-0 opacity-70"
           />
 
-          <h2 className="text-3xl md:text-4xl font-semibold text-center mb-6 md:mb-10">
+          <h2 className="text-3xl md:text-4xl font-semibold text-center mb-6 md:mb-10 relative z-10">
               Frequently Asked Questions
           </h2>
 

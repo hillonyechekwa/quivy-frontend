@@ -76,18 +76,18 @@ const Hero = () => {
 
                         {/* App store buttons */}
                         <div className="flex flex-row gap-4 mt-4">
-                            <Button variant="default" className="flex items-center justify-start gap-x-8 py-4 sm:py-8 px-2 sm:px-6 rounded-lg">
-                                <Image src={appleLogo} alt="Apple App Store" className="w-4 h-4 sm:w-8 sm:h-8" />
+                            <Button variant="default" className="flex items-center justify-start gap-x-3 py-6 px-2 sm:py-8 sm:px-6 rounded-sm md:rounded-lg">
+                                <Image src={appleLogo} alt="Apple App Store" className="w-8 sm:h-8" />
                                 <div className="flex flex-col items-start">
-                                    <small className="text-[10px] sm:text-xs">Download on the</small>
+                                    <small className="text-[8px] sm:text-xs">Download on the</small>
                                     <p className="text-xs sm:text-sm font-medium">App Store</p>
                                 </div>
                             </Button>
 
-                            <Button variant="default" className="flex items-center justify-start gap-3 px-4 py-4 sm:py-8 sm:px-6 rounded-lg">
-                                <Image src={googleLogo} alt="Google Play Store" className="w-4 h-4 sm:w-8 sm:h-8" />
+                            <Button variant="default" className="flex items-center justify-start gap-3 px-2 py-6 sm:py-8 sm:px-6  rounded-sm md:rounded-lg">
+                                <Image src={googleLogo} alt="Google Play Store" className="w-8 sm:h-8" />
                                 <div className="flex flex-col items-start">
-                                    <small className="text-[10px] sm:text-xs">Get it on</small>
+                                    <small className="text-[8px] sm:text-xs">Get it on</small>
                                     <p className="text-xs sm:text-sm font-medium">Google Play</p>
                                 </div>
                             </Button>
