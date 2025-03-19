@@ -43,8 +43,8 @@ const Hero = () => {
             <div className="container mx-auto">
                 <div className="grid md:grid-cols-2 grid-cols-1 md:items-center md:justify-between space-y-20 md:space-y-40">
                     {/* Left content section */}
-                    <article className="relative z-20 w-full md:w-full md:h-full flex flex-col justify-between md:items-start space-y-16">
-                        <small className="text-quivyOrange font-medium">
+                    <article className="relative z-20 w-full md:w-full md:h-full flex flex-col justify-between md:items-start space-y-12">
+                        <small className="text-quivyOrange font-medium relative top-12">
                             <span className="text-quivyPurple">-</span> Host events that stand out
                         </small>
 

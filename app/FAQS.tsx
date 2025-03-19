@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import { useState } from "react"
 import Image from 'next/image'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -16,6 +16,7 @@ import MemoQuestionIllustration from '@/components/QuestionIllustration';
 
 const FAQS = () => {
     // const isMobile = useResponsive("(max-width: 600px)")
+    const [isActive, setIsActive] = useState(false)
     
     const faqs = [
         {
@@ -73,12 +74,12 @@ const FAQS = () => {
                       <AccordionItem
                           key={`item-${index}`}
                           value={`item-${index}`}
-                          className="rounded-lg bg-white shadow-sm"
+                          className={`rounded-lg bg-white shadow-sm`}
                       >
-                          <AccordionTrigger className="font-medium text-lg md:text-xl px-4 py-3">
+                          <AccordionTrigger className={`font-medium text-lg md:text-xl px-4 py-3 rounded-tl-lg rounded-tr-lg`}  onClick={() => setIsActive(!isActive)}>
                               {faq.q}
                           </AccordionTrigger>
-                          <AccordionContent className="px-4 pb-3 text-base">
+                          <AccordionContent className="px-4 pb-3 text-base bg-quivyPurple rounded-bl-lg rounded-br-lg">
                               {faq.a}
                           </AccordionContent>
                       </AccordionItem>
@@ -136,7 +137,7 @@ const FAQS = () => {
 
                           <Button
                               variant="default"
-                              className="w-full py-6 text-base md:text-lg bg-quivyPurple hover:bg-quivyPurple/90"
+                              className="w-full md:w-[300px] md:left-2/4 md:-ml-6  py-6 text-base md:text-lg bg-quivyPurple/40 hover:bg-quivyPurple/90 relative"
                           >
                               Submit Now
                           </Button>

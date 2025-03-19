@@ -83,14 +83,6 @@ const Howitworks = () => {
                     </CardContent>
                 </Card>
             </div>
-
-            {/* Video Player Section */}
-            {/* <div className="w-full max-w-6xl mt-16 flex justify-center">
-                <video width="500" height="300" preload="none" autoPlay loop className="w-full md:w-3/4 rounded-lg shadow-md">
-                   <source src="/Hero.mp4" type='video/mp4' />
-                   Your browser doens&apos;t support the video tag
-                </video>
-            </div> */}
             <Video />
         </section>
     )

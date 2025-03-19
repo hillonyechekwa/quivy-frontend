@@ -89,7 +89,7 @@ const Benefits = () => {
 
                     {/* Section Title */}
                     <div className="order-1 lg:order-2">
-                        <div className="sticky top-24 space-y-4">
+                        <div className="top-24 space-y-4">
                             <small className="text-quivyOrange text-sm font-medium">
                                 <span className="text-quivyPurple">-</span> Benefits
                             </small>
@@ -102,14 +102,14 @@ const Benefits = () => {
             </section>
 
             {/* Illustration Section */}
-            <section className="relative bg-[#F1ECFF] py-32 md:py-40 w-full">
+            <section className="relative bg-[#F1ECFF] py-32 md:py-60 w-full">
                 <div className="container relative mx-auto px-4">
                     <Image
                         src={BenefitIllustration}
                         alt="Benefits Illustration"
                         width={700}
                         height={700}
-                        className="absolute left-1/2 top-0 w-[280px] -translate-x-1/2 -translate-y-1/2 md:w-[500px] lg:w-[700px]"
+                        className="absolute left-1/2 md:left-3/4 top-0 md:-top-36 w-[280px] -translate-x-1/2 -translate-y-1/2 md:w-[500px] lg:w-[700px]"
                     />
                 </div>
             </section>

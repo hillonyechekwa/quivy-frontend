@@ -49,8 +49,8 @@ const Nav = () => {
           (
             <>
               <ul className="flex space-x-4">
-                <li>
-                  <Link href="/">Home</Link>
+                <li className="cursor-pointer">
+                  Home
                 </li>
                 <li>
                   <Link href="#how-it-works">How it works</Link>

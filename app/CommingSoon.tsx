@@ -13,15 +13,8 @@ const CommingSoon = () => {
 
 
     return (
-        <section className="w-full h-[100dvh] grid grid-cols-1 grid-row-[1_0.5] relative">
+        <section className="w-full h-[100dvh] grid grid-cols-1 grid-row-[0.3_0.5] md:grid-row-[1_0.5] relative">
             <div className="w-full h-full">
-                {/* {
-                  !isMobile 
-                      ? 
-                      <Phone className="w-full absolute top-16" viewBox={`0 0 ${isMobile ? `1100` : `1500`} ${isMobile ? `1250` : `800`}`} preserveAspectRatio="none" />
-                      :
-                      <Phone className="w-full absolute top-16" viewBox={`0 0 ${isMobile ? `1100` : `1500`} ${isMobile ? `1250` : `800`}`} preserveAspectRatio="none" />
-              } */}
                 <Image src={Phone} alt="" className="w-[200px] sm:w-[500px] top-56 sm:left-20 sm:top-20 absolute" />
             </div>
             <div className="w-full h-full bg-quivyPurple/30 relative">

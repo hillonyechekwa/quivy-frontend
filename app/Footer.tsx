@@ -29,15 +29,15 @@ const Footer = () => {
                         Quivy!
                     </p>
 
-                    <div className="flex flex-row items-center gap-4 max-w-md">
+                    <div className="flex flex-row items-center justify-between w-full md:max-w-md relative">
                         <Input
                             type="email"
                             placeholder="&#9993; Your email address"
-                            className="rounded-full py-4 md:py-6 bg-white/90 flex-1 w-[300px] md:w-[800px]"
+                            className="rounded-full py-5 md:py-7 bg-white/90 flex-1 w-3/4 md:w-[800px] placeholder:text-[10px] md:placeholder:text-sm"
                         />
                         <Button
                             variant="default"
-                            className="rounded-full px-6 py-3 md:py-6 bg-quivyPurple hover:bg-quivyPurple/90 whitespace-nowrap relative -left-36"
+                            className="rounded-full px-6 py-3 md:py-6 bg-quivyPurple hover:bg-quivyPurple/90 whitespace-nowrap absolute ml-3 left-2/4 md:left-3/4 md:-ml-5"
                         >
                             Create Event
                         </Button>
