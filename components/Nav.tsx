@@ -30,7 +30,7 @@ const Nav = () => {
 
   return (
     <nav className="bg-quivyPurple text-white w-full p-2 flex justify-between items-center font-[family-name:var(--font-inria-sans)]">
-      <Image src={Logo} alt="quivy logo" className="w-20 md:w-32" />
+      <Image src={Logo} alt="quivy logo" className="w-20  md:w-32" />
       {
         isMobile &&
         (
