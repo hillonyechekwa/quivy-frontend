@@ -47,7 +47,7 @@ const Nav = () => {
                   <Link href="/auth/signup" className={`${buttonVariants({ variant: "default" })} bg-quivyOrange text-white`} >Create Account</Link>
                 </li>
               <li className="cursor-pointer hover:bg-gray-400">
-                Home
+                <Link href="/" >Home</Link>
               </li>
               <li className="cursor-pointer hover:bg-gray-400">
                 <Link href="#how-it-works">How it works</Link>
@@ -71,7 +71,9 @@ const Nav = () => {
         <>
           <ul className="flex space-x-4">
             <li className="cursor-pointer">
+              <Link href="/">
               Home
+              </Link>
             </li>
             <li>
               <Link href="#how-it-works">How it works</Link>

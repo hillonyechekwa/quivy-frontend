@@ -53,19 +53,19 @@ export const AppSidebar = ({ side }: AppSidebarProps) => {
         {
             title: "Active events",
             icon: FileText,
-            href: "/active-events",
+            href: "/events/active-events",
             hasNotification: true
         },
         {
             title: "Scheduled events",
             icon: Clock,
-            href: "/scheduled-events",
+            href: "/events/scheduled-events",
             hasNotification: true
         },
         {
             title: "Drafts",
             icon: FileEdit,
-            href: "/drafts",
+            href: "/events/drafts",
             hasNotification: true
         },
     ]

@@ -57,7 +57,7 @@ const Benefits = () => {
 
     return (
         <>
-            <section className="container relative mx-auto px-4 py-16 md:py-24">
+            <section id="benefits" className="container relative mx-auto px-4 py-16 md:py-24">
                 <div className="grid gap-12 lg:grid-cols-[1fr_400px] lg:gap-16">
                     {/* Benefits Cards */}
                     <div className="order-2 lg:order-1">

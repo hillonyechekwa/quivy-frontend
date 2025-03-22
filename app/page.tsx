@@ -18,7 +18,7 @@ function Home() {
 
 
   return (
-    <main className="flex flex-col justify-between items-center">
+    <main className="flex flex-col justify-between items-center scroll-smooth">
       <main className="flex flex-col items-center justify-evenly w-full">
       <Nav />
       <Hero />
