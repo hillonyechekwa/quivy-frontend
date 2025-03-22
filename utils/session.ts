@@ -39,13 +39,11 @@ export async function getSession() {
         const session = await decrypt(cookie)
 
         if (!session) {
-            console.error("session has no payload!!")
             return null
         }
 
         return session
     } catch (error) {
-        console.error("failed to verify session", error)
         redirect("/")
     }
 }
@@ -67,30 +65,38 @@ export async function createSession(payload: SessionPayload) {
 
 
 
-export async function updateSession() {
-    const session = (await cookies()).get("session")?.value
-    const payload = await decrypt(session)
+export async function updateSession({
+    accessToken, refreshToken
+}: {accessToken: string, refreshToken: string}) {
+    const sessionCookie = (await cookies()).get("session")?.value
+    if(!sessionCookie) return null
+
+    const { payload } = await jwtVerify<SessionPayload>(sessionCookie, encodedKey)
 
 
-    if (!session || !payload) {
-        return null
-    }
-
+    if (!payload) throw new Error("Session not found")
     
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-    const cookieStore = await cookies();
-
-    cookieStore.set("session", session, {
-      httpOnly: true,
-      secure: true,
-      expires: expiresAt,
-      sameSite: "lax",
-      path: "/",
-    });
+    
+    const newPayload: SessionPayload = {
+        user: { ...payload.user },
+        backendTokens: {
+            accessToken,
+            refreshToken
+        }
+    }
+    
+    await createSession(newPayload)
 }
 
 
 export async function deleteSession() {
-    const cookieStore = await cookies()
-    cookieStore.delete('session')
+  const cookieStore = await cookies()
+
+  cookieStore.delete({
+    name: "session",
+    path: "/", // Must match the path used in createSession
+    secure: true, // Match other relevant options
+    httpOnly: true,
+    sameSite: "lax",
+  })
 }

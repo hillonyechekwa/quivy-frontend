@@ -13,6 +13,7 @@ import Image from "next/image";
 import Logo from "@/public/assets/Logo.png";
 import formIllustration from "@/public/assets/illustrations/form-illustration.png";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { usePathname } from "next/navigation";
 
 
 
@@ -20,12 +21,17 @@ const SignInPage = () => {
 
   const isMobile = useIsMobile()
 
+  const pathname = usePathname()
+  // if (pathname === "dashboard" || pathname === "/") {
+  //   return null
+  // }
+
   return (
-    <main className="grid grid-cols-2 grid-rows-1 justify-evenly items-center bg-[#F2F2F2]">
+    <main className="grid grid-cols-2 grid-rows-1 justify-evenly items-center bg-[#F2F2F2]" key={pathname}>
       <section className="w-full flex flex-col justify-center md:justify-start items-center space-y-10">
         <div className="flex flex-col space-y-3 items-start justify-between">
           <Image src={Logo} alt="quivy logo" className="w-24 relative md:-left-48" />
-          <Link href="/" className="flex items-center justify-between relative md:-left-48 space-x-3 hover:text-quivyPurple">  
+          <Link href="/" className="flex items-center justify-between relative md:-left-48 space-x-3 hover:text-quivyPurple">
             <FontAwesomeIcon icon={faArrowLeft} size="sm" />
             <p>Go Back</p>
           </Link>

@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { CardContent } from "@/components/ui/card"
-import { useActionState, useEffect, useRef, startTransition } from "react" // Import FocusEvent
+import { useActionState, useEffect, useState, useRef, startTransition } from "react" // Import FocusEvent
 import { buttonVariants } from "@/components/ui/button"
 import { AuthFormSchema } from "@/utils/definitions"
 import { useForm } from "react-hook-form"
@@ -20,7 +20,7 @@ export const SigninForm = () => {
     const [formState, formAction] = useActionState(SignIn, {
         success: false,
     });
-
+    const [isPending, setIsPending] = useState<boolean>(false)
     const formRef = useRef<HTMLFormElement>(null)
 
     const {
@@ -42,16 +42,26 @@ export const SigninForm = () => {
         if (isSubmitSuccessful && formState.success) {
             reset()
         }
+        setIsPending(false)
     }, [reset, isSubmitSuccessful, formState.success])
+
+    const onSubmit = (data: z.output<typeof AuthFormSchema>) => {
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+            formData.append(key, value)
+        })
+        startTransition(() => {
+                formAction(formData)
+            }
+        )
+    }
 
 
     return (
         <CardContent className="rounded-sm p-0 w-full md:w-auto bg-[#FEFEFE]">
-            <form action={formAction} ref={formRef} onSubmit={(e) => {
-                e.preventDefault()
-                handleSubmit(() => {
-                    startTransition(() => formAction(new FormData(formRef.current!)))
-                })
+            <form ref={formRef} onSubmit={(e) => {
+                setIsPending(true)
+                handleSubmit(onSubmit)(e)
             }} className="flex flex-col justify-between items-center space-y-4">
                 {
                     formState?.errors?.error || formState?.errors?.api && (
@@ -88,7 +98,7 @@ export const SigninForm = () => {
                         {...register("password")}
                     // onBlur={handleInputBlur} // Add onBlur for validation
                     />
-                    <Link href="" className={`${buttonVariants({variant: "link"})}`}><small className="text-xs">Forgot password?</small></Link>
+                    <Link href="" className={`${buttonVariants({ variant: "link" })}`}><small className="text-xs">Forgot password?</small></Link>
                     {formState?.errors?.password && (
                         <p className="text-destructive text-xs mt-1"> <FontAwesomeIcon icon={faCircleExclamation} /> {formState?.errors?.password}</p>
                     )}
@@ -97,7 +107,11 @@ export const SigninForm = () => {
                     )}
                 </section>
 
-                <button type="submit" disabled={!isValid} className={`${buttonVariants({ variant: "default" })}  w-[300px] ${isValid ? `cursor-pointer opacity-100 bg-quivyPurple` : `cursor-not-allowed opacity-50 bg-quivyPurple/50`}`}>Continue</button>
+                <button type="submit" disabled={!isValid} className={`${buttonVariants({ variant: "default" })}  w-[300px] ${isValid ? `cursor-pointer opacity-100 bg-quivyPurple` : `cursor-not-allowed opacity-50 bg-quivyPurple/50`}`}>
+                    {
+                        isPending ? "Signing In...." : "Continue"
+                    }
+                </button>
                 <small className="max-w-[300px] text-center text-xs text-gray-300">By continuing, you agree to Quivy&apos;s <Link href="" className="underline underline-offset-1">privacy policy</Link> and <Link href="" className="underline underline-offset-1">Terms and conditions</Link> and to recieve electronic communication about my accounts and services.</small>
             </form>
         </CardContent>

@@ -6,7 +6,7 @@ export type SessionPayload = {
         userId: string,
         email: string
     },
-    backendToken: {
+    backendTokens: {
         accessToken: string,
         refreshToken: string
     }

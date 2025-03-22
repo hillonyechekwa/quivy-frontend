@@ -2,7 +2,7 @@
 
 import { AuthFormSchema, FormState } from "@/utils/definitions"
 import { BACKEND_URL } from "@/utils/constants"
-import { redirect } from "next/navigation"
+import { permanentRedirect, RedirectType} from "next/navigation"
 import axios from 'axios'
 import { createSession } from "@/utils/session"
 
@@ -20,8 +20,6 @@ export async function SignUp(prevState: FormState, formData: FormData): Promise<
 
 
     const payload = Object.fromEntries(formData)
-    
-    console.log('payload', payload)
 
     const validatedFields = AuthFormSchema.safeParse(payload)
 
@@ -43,7 +41,7 @@ export async function SignUp(prevState: FormState, formData: FormData): Promise<
 
     //call provider to create user
     const {email, password} = validatedFields.data
-
+    let shouldRedirect = false
     try {
         const res = await axios.post(`${BACKEND_URL}/auth/signup`, {
           email,
@@ -68,15 +66,21 @@ export async function SignUp(prevState: FormState, formData: FormData): Promise<
         const result = res.data
         //create user session
         await createSession(result)
-        redirect('/onboarding/verifyemail')
-
+        shouldRedirect = true;
     } catch (error) {
         console.error(error)
         return {
             success: false,
         }
     }
+
+    if (shouldRedirect === true) {
+        permanentRedirect("/onboarding/verifyemail", RedirectType.replace);
+    }
     
+    return {
+      success: true,
+    };
 }
 
 export async function SignIn(prevState: FormState, formData: FormData): Promise<FormState> {
@@ -90,8 +94,8 @@ export async function SignIn(prevState: FormState, formData: FormData): Promise<
     }
 
     const payload = Object.fromEntries(formData);
-
     const validatedFields = AuthFormSchema.safeParse(payload);
+
 
     if (!validatedFields.success) {
       const errors = validatedFields.error.flatten().fieldErrors;
@@ -109,7 +113,8 @@ export async function SignIn(prevState: FormState, formData: FormData): Promise<
     }
 
     //call provider to create user
-    const {email, password} = validatedFields.data
+    const { email, password } = validatedFields.data
+    let shouldRedirect = false
 
     try {
         const res = await axios.post(`${BACKEND_URL}/auth/login`, {
@@ -134,21 +139,28 @@ export async function SignIn(prevState: FormState, formData: FormData): Promise<
         const result = res.data
         //create user session
         await createSession(result)
-        redirect('/dashboard')
+        shouldRedirect = true
+        
+        
     } catch (error) {
         console.error(error)
         return {
             success: false
         }
     }
+
+    if (shouldRedirect === true) {
+        permanentRedirect("/dashboard", RedirectType.replace);
+    }
     
+    return{success: true}
 }
 
 
 
 export async function refreshToken(oldRefreshToken?: string) {
     try {
-        const response = await axios.post(`${BACKEND_URL}/auth/refresh`, {
+        const response = await axios.post(`${BACKEND_URL}/auth/refresh`, {}, {
             headers: {
                 "Authorization": `Bearer ${oldRefreshToken}`,
                 "Content-Type": "application/json"
