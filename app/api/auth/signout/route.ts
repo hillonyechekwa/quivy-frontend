@@ -12,6 +12,13 @@ export async function GET(req: NextRequest) {
         method: "POST",
       });
 
+
+      if (!response.ok || response.status === 201) {
+        return NextResponse.json(
+          { error: "Failed to signout" },
+          {status: response.status}
+        )
+      }
       // Delete the session regardless of the backend response
       await deleteSession();
 
