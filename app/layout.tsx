@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Inria_Sans} from "next/font/google";
+import { Inria_Sans } from "next/font/google";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import CustomTrigger from "@/components/CustomTrigger";
 import { AppSidebar } from "@/components/AppSidebar";
 import "./globals.css";
 import { verifySession } from "@/utils/dal";
@@ -45,20 +46,23 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inriaSans.variable} antialiased flex flex-col`}
-      >{isAuth && (
-        <SidebarProvider>
+        className={`${inriaSans.variable} antialiased `}
+      >{isAuth ? (
+        <SidebarProvider className="overflow-x-hidden">
           <AppSidebar />
-            <main className="font-[family-name:var(--font-inria-sans)]">
+          <main className="font-[family-name:var(--font-inria-sans)] relative">
+            <CustomTrigger />
             {children}
           </main>
         </SidebarProvider>
-      )
-        }
-        <main className="font-[family-name:var(--font-inria-sans)] flex-1 min-h-[100vh]">
-          {children}
-        </main>
-        <Footer />
+      ) : (
+        <span>
+          <main className="font-[family-name:var(--font-inria-sans)] flex-1 min-h-[100vh]">
+            {children}
+          </main>
+          <Footer />
+        </span>
+      )}
       </body>
     </html>
   );

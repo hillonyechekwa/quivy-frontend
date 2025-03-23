@@ -16,11 +16,8 @@ import Link from "next/link"
 import { useState } from "react"
 
 
-interface AppSidebarProps {
-    side?: "right" | "left" | undefined;
-}
 
-export const AppSidebar = ({ side }: AppSidebarProps) => {
+export const AppSidebar = () => {
     const pathname = usePathname()
     const [expandedMenu, setExpandedMenu] = useState(true)
 
@@ -91,7 +88,7 @@ export const AppSidebar = ({ side }: AppSidebarProps) => {
     }
 
     return (
-        <Sidebar side={side} className="border-r bg-white w-60">
+        <Sidebar  className="border-r bg-white w-60">
             <SidebarHeader className="py-6 px-6">
                 <Link href="/" className="flex items-center">
                     <h1 className="text-xl font-semibold text-purple-500">Quivy</h1>

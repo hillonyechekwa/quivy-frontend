@@ -1,6 +1,6 @@
 "use client"
 
-import {createContext, useContext, useState, useEffect, ReactNode}  from "react"
+import {createContext, useState, useEffect, ReactNode}  from "react"
 
 
 import { verifySession } from "@/utils/dal"
@@ -18,7 +18,7 @@ interface AuthContextType {
 }
 
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined) 
+export const AuthContext = createContext<AuthContextType | undefined>(undefined) 
 
 
 interface AuthProviderProps{
@@ -26,7 +26,7 @@ interface AuthProviderProps{
 }
 
 
-export function AuthProvider({ children }: AuthProviderProps) {
+export function AuthContextProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<User | null>(null)
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             const sessionData = await verifySession()
             if (sessionData) {
                 setIsAuthenticated(sessionData.isAuth)
-                setUser(sessionData.user)
+                setUser({ id: sessionData.user.userId, email: sessionData.user.email })
             } else {
                 setIsAuthenticated(false)
                 setUser(null)

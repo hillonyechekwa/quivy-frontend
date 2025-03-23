@@ -1,12 +1,17 @@
+"use client"
+import DashboardNav from "@/app/dashboard/components/DashboardNav"
 
 
-const Page = () => {
-    return (
-        <div>
-            <h1>Dashboard</h1>
-        </div>
-    )
+const DashboardPage = () => {
+
+    
+
+  return (
+    <section className="w-full">
+      <DashboardNav />      
+      <h2>Dashboard</h2>
+    </section>
+  )
 }
 
-
-export default Page
+export default DashboardPage
