@@ -14,7 +14,7 @@ const DashboardNav = () => {
     const isMobile = useIsMobile()
 
   return (
-      <nav className="border-2 border-black p-3 flex justify-center items-center relative left-2/4 w-[300px]">
+      <nav className="p-3 flex justify-center items-center relative left-2/4 w-[300px]">
           {
               isMobile ? 
                   (
@@ -40,7 +40,7 @@ const DashboardNav = () => {
                               <Bell />
                           </li>
                           <li>
-                              <Separator orientation="vertical" />
+                              <Separator orientation="vertical" className="" />
                           </li>
                           <li>
                               <Avatar>

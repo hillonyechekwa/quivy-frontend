@@ -23,7 +23,6 @@ const Nav = () => {
     return null
   }
 
-
     const handleToggleNav = () => {
       setIsOpen(!isOpen)
   }
@@ -90,10 +89,10 @@ const Nav = () => {
           </ul>
           <ul className="flex space-x-2">
             <li>
-              <Link href="/auth/signin" className={`${buttonVariants({ variant: "link" })} text-lg text-white`}>Sign In</Link>
+              <Link href="" className={`${buttonVariants({ variant: "link" })} text-lg text-white`}>Sign In</Link>
             </li>
             <li>
-              <Link href="/auth/signup" className={`${buttonVariants({ variant: "default" })} bg-quivyOrange text-white hover:bg-white hover:border-2 hover:text-quivyPurple hover:border-white`} >Create Account</Link>
+              <Link href="" className={`${buttonVariants({ variant: "default" })} bg-quivyOrange text-white hover:bg-white hover:border-2 hover:text-quivyPurple hover:border-white`} >Create Account</Link>
             </li>
           </ul>
         </>

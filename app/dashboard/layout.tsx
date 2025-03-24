@@ -5,6 +5,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContextProvider>
       <main className='w-[100vw]'>
+        
         {children}
       </main>
     </AuthContextProvider>
