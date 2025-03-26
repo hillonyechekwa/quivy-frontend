@@ -22,7 +22,7 @@ const ClicksScansChart = () => {
         { date: '12/12', clicks: 65, scans: 15 },
     ];
 
-    const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+    const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
         if (active && payload && payload.length) {
             const dataType = payload[0].dataKey === 'clicks' ? 'Clicks' : 'Scans';
             return (
