@@ -34,7 +34,7 @@ export const AppSidebar = () => {
         {
             title: "Event",
             icon: Calendar,
-            href: "#",
+            href: "/events",
             hasSubmenu: true,
             hasNotification: false
         },
@@ -101,11 +101,13 @@ export const AppSidebar = () => {
                             {item.hasSubmenu ? (
                                 <div>
                                     <SidebarMenuButton
-                                        onClick={() => setExpandedMenu(!expandedMenu)}
+                                        
                                         className="h-10 gap-3 w-full justify-start px-3 font-normal hover:bg-gray-100 rounded-md"
                                     >
+                                    <Link href={item.href} className="h-10 flex items-center gap-3 w-full justify-start px-3 font-normal hover:bg-gray-100">
                                         <item.icon className="h-5 w-5" />
                                         <span>{item.title}</span>
+                                    </Link>
                                     </SidebarMenuButton>
 
                                     {expandedMenu && (

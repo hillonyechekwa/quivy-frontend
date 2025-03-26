@@ -1,9 +1,13 @@
-import React from 'react'
+"use client"
+import { EventsDataTable } from "./ActiveEventsTable"
 
-const page = () => {
+
+const ActiveEventsPage = () => {
   return (
-    <div>page</div>
+    <div className="flex justify-center items-center p-3 w-full">
+      <EventsDataTable />
+    </div>
   )
 }
 
-export default page
+export default ActiveEventsPage

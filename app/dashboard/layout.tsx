@@ -5,11 +5,11 @@ import DashboardNav from './components/DashboardNav';
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContextProvider>
-      <main className=''>
         <nav className="flex justify-between items-center relative top-10">
           <h2 className="text-4xl font-bold text-quivyPurple">Dashboard</h2>
-        <DashboardNav />
+          <DashboardNav />
         </nav>
+      <main className='mt-10'>
         {children}
       </main>
     </AuthContextProvider>

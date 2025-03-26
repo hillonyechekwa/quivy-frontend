@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipPro
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-const ClicksScansChart = () => {
+const DashboardChart = () => {
     const [timeRange, setTimeRange] = useState('Last 31 days');
 
     // Sample data - this would come from your actual data source
@@ -115,4 +115,4 @@ const ClicksScansChart = () => {
     );
 };
 
-export default ClicksScansChart;
+export default DashboardChart;

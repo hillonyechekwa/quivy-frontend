@@ -1,13 +1,13 @@
 import React from 'react'
-import DeviceInsights from './DeviceInsights'
-// import { EventCalendar } from './EventsCalendar'
+import { DeviceInsights } from './DeviceInsights'
+import { EventsCalendar } from './EventsCalendar'
 
 
 const CalendarInsights = () => {
     return (
-        <section className="w-full col-start-1 col-end-5 row-start-2 row-end-3">
+        <section className="w-full flex flex-col justify-between items-center col-start-4 col-end-6 space-y-3">
             <DeviceInsights />
-            {/* <EventCalendar /> */}
+            <EventsCalendar />
         </section>
     )
 }
