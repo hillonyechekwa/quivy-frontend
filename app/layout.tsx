@@ -50,7 +50,7 @@ export default async function RootLayout({
       >{isAuth ? (
         <SidebarProvider className="overflow-x-hidden">
           <AppSidebar />
-          <main className="font-[family-name:var(--font-inria-sans)] relative">
+          <main className="font-[family-name:var(--font-inria-sans)] relative w-full">
             <CustomTrigger />
             {children}
           </main>
