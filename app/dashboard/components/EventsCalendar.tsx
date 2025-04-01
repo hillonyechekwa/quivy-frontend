@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useIsMobile } from "@/hooks/use-mobile"
+// import { useIsMobile } from "@/hooks/use-mobile"
 import { ChevronDown } from "lucide-react"
 
 export function EventsCalendar() {
@@ -18,7 +18,7 @@ export function EventsCalendar() {
         { label: "10 & above", color: "bg-primary" },
     ]
 
-    const isMobile = useIsMobile()
+    // const isMobile = useIsMobile()
 
     return (
         <Card className="bg-[#321A72] text-white w-full">
@@ -47,8 +47,8 @@ export function EventsCalendar() {
             </CardHeader>
             <CardContent>
                 <div className="grid grid-cols-7 gap-1 mb-2">
-                    {weekdays.map((day) => (
-                        <div key={day} className="text-center text-xs">
+                    {weekdays.map((day, index) => (
+                        <div key={index} className="text-center text-xs">
                             {day}
                         </div>
                     ))}

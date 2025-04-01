@@ -17,7 +17,7 @@ const DatePicker = ({ date, handleDate }: { date: Date | undefined, handleDate: 
               <Button
                   variant={"outline"}
                   className={cn(
-                      "w-[240px] justify-start text-left font-normal",
+                      "w-[240px] justify-start text-left p-7 border-gray-300 font-normal",
                       !date && "text-muted-foreground"
                   )}
               >

@@ -132,8 +132,8 @@ export function EventsDataTable() {
     }
 
     return (
-        <div className="w-full">
-            <div className="flex items-center justify-between">
+        <div className="w-full h-auto bg-white rounded-md p-5">
+            <div className="flex items-center justify-between p-4">
                 <h1 className="text-2xl font-semibold text-[#7340fd]">Scheduled Events</h1>
                 <div className="flex items-center gap-4">
                     <div className="relative">
@@ -179,8 +179,8 @@ export function EventsDataTable() {
                 </div>
             </div>
 
-            <div className="rounded-md border">
-                <Table>
+            <div className="rounded-md border mb-8">
+                <Table className="w-full min-h-[500px]">
                     <TableHeader>
                         <TableRow className="bg-[#fafafa] hover:bg-[#fafafa]">
                             <TableHead className="w-[200px] cursor-pointer" onClick={() => toggleSort("date")}>

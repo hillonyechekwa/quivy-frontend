@@ -9,17 +9,17 @@ import {
     SidebarMenuButton,
     SidebarFooter
 } from "./ui/sidebar"
-import { LayoutDashboard, Calendar, FileText, Clock, FileEdit, Bell, Settings, LogOut } from "lucide-react"
+import { LayoutDashboard, Calendar, Clock, FileEdit, Bell, Settings, LogOut, CalendarCheck } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { useState } from "react"
+// import { useState } from "react"
 
 
 
 export const AppSidebar = () => {
     const pathname = usePathname()
-    const [expandedMenu, setExpandedMenu] = useState(true)
+    // const [expandedMenu, setExpandedMenu] = useState(true)
 
     
     
@@ -41,7 +41,7 @@ export const AppSidebar = () => {
         {
             title: "Notification",
             icon: Bell,
-            href: "/notification",
+            href: "/notifications",
             hasNotification: true
         },
     ]
@@ -49,7 +49,7 @@ export const AppSidebar = () => {
     const subEvents = [
         {
             title: "Active events",
-            icon: FileText,
+            icon: CalendarCheck,
             href: "/events/active-events",
             hasNotification: true
         },
@@ -110,7 +110,7 @@ export const AppSidebar = () => {
                                     </Link>
                                     </SidebarMenuButton>
 
-                                    {expandedMenu && (
+                                    {/* {expandedMenu && ( */}
                                         <div className="ml-6 mt-1 space-y-1">
                                             {subEvents.map((subItem) => (
                                                 <Link
@@ -129,7 +129,7 @@ export const AppSidebar = () => {
                                                 </Link>
                                             ))}
                                         </div>
-                                    )}
+                                    
                                 </div>
                             ) : (
                                 <SidebarMenuButton

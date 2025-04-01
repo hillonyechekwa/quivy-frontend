@@ -37,7 +37,7 @@ const DurationPicker: React.FC<DurationPickerProps> = ({hours, minutes, handleHo
 
     return (
         <TextField
-            label="Duration"
+            label=""
             value={formatDuration()}
             InputProps={{
                 readOnly: true,

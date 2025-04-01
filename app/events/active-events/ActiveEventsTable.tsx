@@ -132,7 +132,7 @@ export function EventsDataTable() {
     }
 
     return (
-        <div className="space-y-4 w-full">
+        <div className="space-y-4 w-full h-auto p-5 bg-white rounded-md">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-semibold text-[#7340fd]">Active Events</h1>
                 <div className="flex items-center gap-4">
@@ -179,11 +179,11 @@ export function EventsDataTable() {
                 </div>
             </div>
 
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader>
-                        <TableRow className="bg-[#fafafa] hover:bg-[#fafafa]">
-                            <TableHead className="w-[200px] cursor-pointer" onClick={() => toggleSort("date")}>
+            <div className="rounded-md border p-4">
+                <Table className="mb-10 min-h-[500px]">
+                    <TableHeader className="mb-6">
+                        <TableRow className="bg-white hover:bg-white">
+                            <TableHead className="w-[200px] cursor-pointer bg-white" onClick={() => toggleSort("date")}>
                                 <div className="flex items-center">
                                     Date
                                     {sortColumn === "date" &&
@@ -194,7 +194,7 @@ export function EventsDataTable() {
                                         ))}
                                 </div>
                             </TableHead>
-                            <TableHead className="cursor-pointer" onClick={() => toggleSort("name")}>
+                            <TableHead className="cursor-pointer bg-white" onClick={() => toggleSort("name")}>
                                 <div className="flex items-center">
                                     Events
                                     {sortColumn === "name" &&
@@ -208,10 +208,10 @@ export function EventsDataTable() {
                             <TableHead className="w-[50px]"></TableHead>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
+                    <TableBody className="h-auto">
                         {paginatedEvents.length > 0 ? (
                             paginatedEvents.map((event) => (
-                                <TableRow key={event.id} className="hover:bg-[#f1ecff]/30 cursor-pointer group">
+                                <TableRow key={event.id} className="hover:bg-[#f1ecff]/30 cursor-pointer group mb-8 p-6">
                                     <TableCell className="font-medium">
                                         {format(event.date, "MMM d")}, {event.time}
                                     </TableCell>

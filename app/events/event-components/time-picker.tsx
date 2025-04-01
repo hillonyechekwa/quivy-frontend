@@ -14,7 +14,7 @@ interface TimePickerProps {
 const TimeSelector: React.FC<TimePickerProps> = ({value, handleValue}) => {
   return (
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <TimePicker label="Basic time picker" value={value} onChange={handleValue} />
+        <TimePicker label="" value={value} onChange={handleValue} />
       </LocalizationProvider>
   )
 }

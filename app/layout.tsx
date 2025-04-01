@@ -6,6 +6,8 @@ import { AppSidebar } from "@/components/AppSidebar";
 import "./globals.css";
 import { verifySession } from "@/utils/dal";
 import Footer from "@/components/Footer";
+import { AuthContextProvider } from "@/context/AuthContext";
+import AuthNav from "@/components/AuthNav";
 
 
 // const geistSans = Geist({
@@ -48,13 +50,18 @@ export default async function RootLayout({
       <body
         className={`${inriaSans.variable} antialiased `}
       >{isAuth ? (
-        <SidebarProvider className="overflow-x-hidden">
-          <AppSidebar />
-          <main className="font-[family-name:var(--font-inria-sans)] relative w-full">
-            <CustomTrigger />
-            {children}
-          </main>
-        </SidebarProvider>
+        <AuthContextProvider>
+          <SidebarProvider className="overflow-x-hidden">
+            <AppSidebar />
+            <main className="font-[family-name:var(--font-inria-sans)] relative w-full bg-[#FAFAFA]">
+              <div className="flex justify-end items-center w-full relative p-5">
+                <AuthNav />
+                {/* <CustomTrigger /> */}
+              </div>
+              {children}
+            </main>
+          </SidebarProvider>
+        </AuthContextProvider>
       ) : (
         <span>
           <main className="font-[family-name:var(--font-inria-sans)] flex-1 min-h-[100vh]">
