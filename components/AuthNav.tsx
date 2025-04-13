@@ -1,11 +1,13 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { UserIcon } from "lucide-react"
 import { Bell } from "lucide-react"
 import { Separator } from "./ui/separator"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useAuthContext } from "@/hooks/useAuthContext"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 
 
@@ -44,7 +46,9 @@ const AuthNav = () => {
 
                             <Avatar className="cursor-pointer">
                                 <AvatarImage src="" />
-                                <AvatarFallback></AvatarFallback>
+                                <AvatarFallback>
+                                    <UserIcon className="h-5 w-5" />
+                                </AvatarFallback>
                             </Avatar>
 
                             <p>{user?.email}</p>

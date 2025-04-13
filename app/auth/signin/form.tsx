@@ -98,7 +98,7 @@ export const SigninForm = () => {
                         {...register("password")}
                     // onBlur={handleInputBlur} // Add onBlur for validation
                     />
-                    <Link href="" className={`${buttonVariants({ variant: "link" })}`}><small className="text-xs">Forgot password?</small></Link>
+                    <Link href="/auth/forgotpassword" className={`${buttonVariants({ variant: "link" })}`}><small className="text-xs">Forgot password?</small></Link>
                     {formState?.errors?.password && (
                         <p className="text-destructive text-xs mt-1"> <FontAwesomeIcon icon={faCircleExclamation} /> {formState?.errors?.password}</p>
                     )}

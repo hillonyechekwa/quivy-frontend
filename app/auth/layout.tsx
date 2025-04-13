@@ -1,3 +1,5 @@
+"use client"
+
 import React, { ReactNode } from 'react'
 import Image from "next/image";
 import formIllustration from "@/public/assets/illustrations/form-illustration.png";

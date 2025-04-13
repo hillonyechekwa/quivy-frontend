@@ -14,10 +14,12 @@ export async function GET(req: NextRequest) {
 
 
       if (!response.ok || response.status === 201) {
-        return NextResponse.json(
-          { error: "Failed to signout" },
-          {status: response.status}
-        )
+        await deleteSession();
+        const redirectUrl = new URL("/", req.url);
+         return NextResponse.redirect(redirectUrl, {
+           // Use 303 See Other for redirects after POST operations
+           status: 303,
+         });
       }
       // Delete the session regardless of the backend response
       await deleteSession();
