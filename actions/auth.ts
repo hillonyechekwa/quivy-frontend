@@ -5,6 +5,7 @@ import { BACKEND_URL } from "@/utils/constants"
 import { permanentRedirect, RedirectType} from "next/navigation"
 import axios from 'axios'
 import { createSession } from "@/utils/session"
+import { authFetch } from "./authFetch"
 
 
 export async function SignUp(prevState: FormState, formData: FormData): Promise<FormState> {
@@ -66,6 +67,13 @@ export async function SignUp(prevState: FormState, formData: FormData): Promise<
         const result = res.data
         //create user session
         await createSession(result)
+        await authFetch(`${BACKEND_URL}/auth/otp-verification`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        
         shouldRedirect = true;
     } catch (error) {
         console.error(error)
@@ -75,7 +83,7 @@ export async function SignUp(prevState: FormState, formData: FormData): Promise<
     }
 
     if (shouldRedirect === true) {
-        permanentRedirect("/onboarding/verifyemail", RedirectType.replace);
+        permanentRedirect("/auth/verification", RedirectType.replace);
     }
     
     return {
@@ -188,3 +196,12 @@ export async function refreshToken(oldRefreshToken?: string) {
         return null
     }
 }
+
+
+// export async function emailVerification() {
+
+// }
+
+
+
+// export async function forgotPassword() {}

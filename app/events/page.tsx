@@ -13,7 +13,7 @@ const EventsPage = () => {
     <main className="flex justify-start items-center w-full">
           {
               openForm ? (
-                  <EventsForm handleOpenForm={setOpenForm} />                             
+                  <EventsForm handleOpenForm={setOpenForm} status="active" />                             
               )
                   :
                   (

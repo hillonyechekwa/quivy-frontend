@@ -10,6 +10,9 @@ export async function GET(req: NextRequest) {
     try {
       const response = await authFetch(`${BACKEND_URL}/auth/signout`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
       });
 
 

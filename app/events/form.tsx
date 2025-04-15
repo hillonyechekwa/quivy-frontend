@@ -1,67 +1,46 @@
 "use client"
 
 import { Card } from "@/components/ui/card"
-import { ChevronLeftCircle, Edit, Plus, Minus, Upload, Trash2, AlertCircle } from "lucide-react"
+import { ChevronLeftCircle} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useCallback, useState } from "react"
-import DatePicker from "./event-components/date-picker"
-import TimeSelector from "./event-components/time-picker"
-import DurationPicker from "./event-components/duration-picker"
-import Timer from "./event-components/timer"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { format } from 'date-fns'
-import Image from "next/image"
+import { useState } from "react"
+import { EventFormData, Prize, SidePanelState } from "./types"
+import { PrizePanel } from "./components/PrizePanel"
+import { PrizeList } from "./components/PrizeList"
+import { EventDetailsSection } from "./components/EventDetailsSection"
 
-
-
-type SidePanelState = "none" | "timer" | "prize-add"
-
-interface Prize {
-    name: string
-    description: string
-    quantity: number,
-    //TODO: add prize image here instead of being seperate
-}
 
 interface EventsFormProps {
-    handleOpenForm: (open: boolean) => void
+    handleOpenForm: (open: boolean) => void,
+    eventStatus: string
 }
 
-const EventsForm = ({ handleOpenForm }: EventsFormProps) => {
+const EventsForm = ({ handleOpenForm, eventStatus }: EventsFormProps) => {
     const [sidePanelState, setSidePanelState] = useState<SidePanelState>("none")
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [date, setDate] = useState<Date | undefined>(new Date())
-    const [timeValue, setTimeValue] = useState<Date | null>(new Date())
-    const [hours, setHours] = useState(3);
-    const [minutes, setMinutes] = useState(0);
+    const [eventFormData, setEventFormData] = useState<EventFormData>({
+        title: "",
+        description: "",
+        date: new Date(),
+        timeValue: new Date(),
+        hours: 3,
+        minutes: 0,
+        // timer: { hours: "00", minutes: "30", seconds: "00" }
+    })
     const [prizes, setPrizes] = useState<Prize[]>([])
-    const [newPrize, setNewPrize] = useState<Prize>({ name: "", description: "", quantity: 1 })
+    const [newPrize, setNewPrize] = useState<Prize>({
+        name: "",
+        description: "",
+        quantity: 1,
+        imageUrl: "",
+        imageFile: ""
+    })
     const [editingPrizeIndex, setEditingPrizeIndex] = useState<number | null>(null)
-    const [timer, setTimer] = useState({ hours: "00", minutes: "30", seconds: "00" })
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
 
-
-
-
-    const handleTimeChange = (newTime: Date | null) => {
-        setTimeValue(newTime)
+    const handleFormDataChange = (data: Partial<FormData>) => {
+        setEventFormData(prev => ({ ...prev, ...data }))
     }
-
-    const duration = hours * 60 + minutes
-
-    console.log('sidepanelstate1', sidePanelState)
-
-    const handleTimerChange = useCallback((newHours: string, newMinutes: string, newSeconds: string) => {
-        setTimer({
-            hours: newHours.padStart(2, "0"),
-            minutes: newMinutes.padStart(2, "0"),
-            seconds: newSeconds.padStart(2, "0"),
-        })
-    }, [])
 
     const handleAddPrize = () => {
         if (newPrize.name) {
@@ -73,8 +52,15 @@ const EventsForm = ({ handleOpenForm }: EventsFormProps) => {
             } else {
                 setPrizes([...prizes, newPrize])
             }
-            setNewPrize({ name: "", description: "", quantity: 1 })
+            setNewPrize({
+                name: "",
+                description: "",
+                quantity: 1,
+                imageUrl: "",
+                imageFile: ""
+            })
             setSidePanelState("none")
+            setSelectedImage(null)
         }
     }
 
@@ -96,79 +82,140 @@ const EventsForm = ({ handleOpenForm }: EventsFormProps) => {
         const file = event.target.files?.[0]
         if (file) {
             if (file.size > MAX_FILE_SIZE) {
-                setError(`file size is too large, max file size is ${MAX_FILE_SIZE/1024/1024}MB`)
+                setError(`file size is too large, max file size is ${MAX_FILE_SIZE / 1024 / 1024}MB`)
                 return
             }
-
             const allowedTypes = ['image/jpg', 'image/png', 'image/webp', 'image/jpeg']
             if (!allowedTypes.includes(file.type)) {
                 setError("invalid file type. please upload another image")
                 return
             }
-
             const imageURL = URL.createObjectURL(file)
             setSelectedImage(imageURL)
+            setNewPrize(prev => ({
+                ...prev,
+                imageFile: file,
+                imageUrl: imageURL
+            }))
+            setError(null)
         }
     }
 
-    const triggerFileInput = () => {
-        document.getElementById('file-upload')?.click()
-    }
+    const handleSubmit = async (e: React.FormEvent) => {
+        console.log({eventFormData, prizes})
+        const duration = eventFormData.hours * 60 + eventFormData.minutes
+        const eventStartTime = new Date(eventFormData.timeValue)
+        const eventStartTimeMinutes = eventStartTime.getHours() * 60 + eventStartTime.getMinutes()
+        const eventEndTime = new Date(eventStartTime.getTime() + duration * 60 * 1000)
+        const eventEndTimeMinutes = eventEndTime.getHours() * 60 + eventEndTime.getMinutes()
 
+        e.preventDefault()
+        // TODO: Implement form submission
+
+        const eventData = {
+            title: eventFormData.title,
+            description: eventFormData.description,
+            date: new Date(eventFormData.date),
+            eventStartTime: eventStartTime,
+            eventEndTime: eventEndTime,
+            qrCodeVaidityDuration: eventStartTimeMinutes + eventEndTimeMinutes,
+            status: eventStatus,
+            prizes: prizes.map(prize => ({
+                name: prize.name,
+                description: prize.description,
+                quantity: prize.quantity,
+                image: prize.imageFile
+            }))
+        }
+
+        const formData = new FormData()
+
+        Object.entries(eventData).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                if (key === 'date' || key === 'eventStartTime' || key === 'eventEndTime') {
+                    // Convert Date to ISO string
+                    formData.append(key, (value as Date).toISOString());
+                } else if (key === 'prizes') {
+                    // Don't append prizes array directly - we'll handle it separately
+                } else if (typeof value === 'number' || typeof value === 'boolean') {
+                    // Convert numbers and booleans to strings
+                    formData.append(key, value.toString());
+                } else if (typeof value === 'string') {
+                    // Strings can be appended directly
+                    formData.append(key, value);
+                }
+            }
+        })
+
+
+        eventData.prizes.forEach((prize, index) => {
+            formData.append(`prizes[${index}][name]`, prize.name);
+            formData.append(`prizes[${index}][description]`, prize.description);
+            formData.append(`prizes[${index}][quantity]`, prize.quantity.toString());
+
+            // Handle the image file
+            if (prize.image instanceof Blob) {
+                formData.append(`prizes[${index}][image]`, prize.image);
+            }
+        });
+        // Log FormData entries
+        for (const pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+
+        try {
+            const response = await fetch("/api/events/createEvent", {
+                method: 'POST',
+                body: formData
+            })
+
+            if (response.ok) {
+                const data = await response.json()
+                console.log(data)
+            }
+        } catch (error) {
+            console.log("Error:", error)
+        }
+
+    }
 
     return (
         <section className="w-auto h-auto flex flex-col items-start justify-between space-y-5 p-10 relative">
-            <ChevronLeftCircle size={40} className="relative left-5 stroke-gray-500 stroke-1 hover:stroke-gray-300 cursor-pointer" onClick={() => handleOpenForm(false)} />
-            <Card className="p-3 flex justify-between space-x-6 ">
-                <form className="flex flex-col justify-between items-start space-y-16 p-5">
-                    <section className="flex flex-col space-y-2">
-                        <Label htmlFor="title">Title</Label>
-                        <Input type="text" name="title" id="title" value={title} onChange={(e) => setTitle(e.target.value)} className="w-[600px] p-5" />
-                    </section>
-                    <section className="space-y-2">
-                        <label htmlFor="description">Description</label>
-                        <Textarea name="description" id="description" value={description} onChange={(e) => setDescription(e.target.value)} cols={100} rows={10}></Textarea>
-                    </section>
-                    <section className="flex justify-between items-center space-x-4">
-                        <div className="flex flex-col space-y-2">
-                            <Label htmlFor="">Date</Label>
-                            <DatePicker date={date} handleDate={setDate} />
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <Label htmlFor="">Time</Label>
-                            <TimeSelector value={timeValue} handleValue={handleTimeChange} />
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <Label htmlFor="">Duration</Label>
-                            <DurationPicker hours={hours} minutes={minutes} handleHours={setHours} handleMinutes={setMinutes} />
-                        </div>
-                    </section>
-                    <p>{`This event will take place on ${format(date ?? new Date(), "MMMM d, yyyy")} from ${format(timeValue ?? new Date(), 'h:mm:a')} until ${format(new Date((date ?? new Date()).getTime() + duration * 60000), "hh:mm:a")}`}</p>
-                    <div className="space-y-2 w-full bg-gray-200 rounded-md p-3">
+            <ChevronLeftCircle
+                size={40}
+                className="relative left-5 stroke-gray-500 stroke-1 hover:stroke-gray-300 cursor-pointer"
+                onClick={() => handleOpenForm(false)}
+            />
+
+            <Card className="p-3 flex justify-between space-x-6">
+                <form onSubmit={handleSubmit} className="flex flex-col justify-between items-start space-y-16 p-5">
+                    <EventDetailsSection
+                        formData={eventFormData}
+                        onFormDataChange={handleFormDataChange}
+                    />
+
+                    {/* <div className="space-y-2 w-full bg-gray-200 rounded-md p-3">
                         <div className="flex justify-between items-center">
-                            <Label className="text-sm font-medium">Timer</Label>
+                            <label className="text-sm font-medium">Timer</label>
                             <Button
                                 type="button"
                                 variant="default"
                                 size="sm"
-                                className=""
-                                onClick={() => {
-                                    console.log('sidePanelState', sidePanelState)
-                                    setSidePanelState(sidePanelState === "timer" ? "none" : "timer")
-                                }}
+                                onClick={() => setSidePanelState(sidePanelState === "timer" ? "none" : "timer")}
                             >
                                 Set
                             </Button>
                         </div>
                         <div className="text-2xl font-medium">
-                            {timer.hours}:{timer.minutes}:{timer.seconds}
+                            {formData.timer.hours}:{formData.timer.minutes}:{formData.timer.seconds}
                         </div>
                         <div className="flex space-x-4 text-xs text-gray-500">
                             <span>Hrs</span>
                             <span>Min</span>
                             <span>Sec</span>
                         </div>
-                    </div>
+                    </div> */}
+
                     <div className="space-y-2 w-full">
                         <div className="flex justify-between items-center">
                             <label className="text-sm font-medium">Prize listing</label>
@@ -178,7 +225,13 @@ const EventsForm = ({ handleOpenForm }: EventsFormProps) => {
                                 size="sm"
                                 className="bg-black text-white rounded-md hover:bg-black/90"
                                 onClick={() => {
-                                    setNewPrize({ name: "", description: "", quantity: 1 })
+                                    setNewPrize({
+                                        name: "",
+                                        description: "",
+                                        quantity: 1,
+                                        imageUrl: "",
+                                        imageFile: ""
+                                    })
                                     setEditingPrizeIndex(null)
                                     setSidePanelState(sidePanelState === "prize-add" ? "none" : "prize-add")
                                 }}
@@ -187,141 +240,36 @@ const EventsForm = ({ handleOpenForm }: EventsFormProps) => {
                             </Button>
                         </div>
 
-                        {prizes.length > 0 && (
-                            <div className="mt-4 space-y-4">
-                                {prizes.map((prize, index) => (
-                                    <div key={index} className="flex items-start gap-4">
-                                        <div className="text-sm font-medium w-10">{prize.quantity}</div>
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-2">
-                                                <div className="h-8 w-8 bg-gray-200 rounded-md flex items-center justify-center">
-                                                    <span className="text-xs">🎁</span>
-                                                </div>
-                                                <div>
-                                                    <div className="font-medium">{prize.name}</div>
-                                                    <div className="text-xs text-gray-500">{prize.description}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="flex gap-2">
-                                            <Button type="button" variant="ghost" size="icon" onClick={() => handleEditPrize(index)}>
-                                                <Edit className="h-4 w-4" />
-                                            </Button>
-                                            <Button type="button" variant="ghost" size="icon" onClick={() => handleRemovePrize(index)}>
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                        <PrizeList
+                            prizes={prizes}
+                            onEdit={handleEditPrize}
+                            onRemove={handleRemovePrize}
+                        />
                     </div>
-                    <Button className="w-full bg-quivyPurple text-white hover:bg-quivyPurple/50">Create Event</Button>
+
+                    <Button type="submit" className="w-full bg-quivyPurple text-white hover:bg-quivyPurple/50">
+                        Create Event
+                    </Button>
                 </form>
+
                 {sidePanelState !== "none" && (
                     <div className="w-80 bg-white p-8 rounded-lg shadow-md">
-                        {sidePanelState === "timer" && (
-                            <div className="space-y-6">
-                                <h2 className="text-lg font-medium">Set your time</h2>
-
-                                <Timer
-                                    initialHours={timer.hours}
-                                    initialMinutes={timer.minutes}
-                                    initialSeconds={timer.seconds}
-                                    onTimeChange={handleTimerChange}
-                                />
-
-                                <Button
-                                    className="w-full bg-[#7340fd] text-white hover:bg-[#7340fd]/90"
-                                    onClick={() => setSidePanelState("none")}
-                                >
-                                    Save
-                                </Button>
-                            </div>
-                        )}
+                        {/* {sidePanelState === "timer" && (
+                            <TimerPanel
+                                timer={formData.timer}
+                                onTimeChange={handleTimerChange}
+                                onClose={() => setSidePanelState("none")}
+                            />
+                        )} */}
                         {sidePanelState === "prize-add" && (
-                            <div className="space-y-6">
-                                <h2 className="text-lg font-medium">Prize listing</h2>
-
-                                <div className="space-y-4">
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium">Prize name</label>
-                                        <Input
-                                            value={newPrize.name}
-                                            onChange={(e) => setNewPrize({ ...newPrize, name: e.target.value })}
-                                            placeholder="Enter prize name"
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium">Prize Description</label>
-                                        <Textarea
-                                            value={newPrize.description}
-                                            onChange={(e) => setNewPrize({ ...newPrize, description: e.target.value })}
-                                            placeholder="Enter prize description"
-                                            className="min-h-[100px]"
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium">Quantity</label>
-                                        <div className="flex items-center">
-                                            <Button
-                                                variant="outline"
-                                                size="icon"
-                                                className="rounded-full"
-                                                onClick={() => setNewPrize({ ...newPrize, quantity: Math.max(1, newPrize.quantity - 1) })}
-                                            >
-                                                <Minus className="h-4 w-4" />
-                                            </Button>
-                                            <div className="w-12 text-center">{newPrize.quantity}</div>
-                                            <Button
-                                                variant="outline"
-                                                size="icon"
-                                                className="rounded-full"
-                                                onClick={() => setNewPrize({ ...newPrize, quantity: newPrize.quantity + 1 })}
-                                            >
-                                                <Plus className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium">Upload image</label>
-                                        <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6">
-                                            <div className="flex items-center justify-center bg-gray-100 rounded-full p-2">
-                                                <Upload className="h-6 w-6 text-gray-500" />
-                                            </div>
-                                            <Input id="file-upload" type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
-                                            {error && (
-                                                <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded flex items-center">
-                                                    <AlertCircle className="mr-2" />
-                                                    <p>{error}</p>
-                                                </div>
-                                            )}
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={triggerFileInput}
-                                                className="mt-4 bg-black text-white rounded-md hover:bg-black/90"
-                                            >
-                                                Upload image
-                                            </Button>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-center items-center p-3">
-                                        {selectedImage && (
-                                            <div className="rounded-lg shadow-md max-h-64 object-cover">
-                                                <Image width={150} height={150} src={selectedImage} alt="product-image" />
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <Button className="w-full bg-[#7340fd] text-white hover:bg-[#7340fd]/90" onClick={handleAddPrize}>
-                                    Save
-                                </Button>
-                            </div>
+                            <PrizePanel
+                                prize={newPrize}
+                                onPrizeChange={setNewPrize}
+                                onSave={handleAddPrize}
+                                selectedImage={selectedImage}
+                                error={error}
+                                onImageUpload={handleImageUpload}
+                            />
                         )}
                     </div>
                 )}

@@ -5,6 +5,8 @@ export interface FetchOptions extends RequestInit {
   headers?: Record<string, string>;
 }
 
+//update to using axios
+
 export const authFetch = async (
   url: string | URL,
   options: FetchOptions = {}
