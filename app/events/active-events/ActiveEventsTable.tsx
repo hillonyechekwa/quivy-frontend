@@ -14,9 +14,8 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
 import { format } from "date-fns"
+import { useRouter } from "next/navigation"
 
 // Define the event type
 type Event = {
@@ -25,6 +24,8 @@ type Event = {
     time: string
     name: string
 }
+
+
 
 // Sample data
 const events: Event[] = [
@@ -43,6 +44,13 @@ const events: Event[] = [
 ]
 
 export function EventsDataTable() {
+
+    const router = useRouter()
+
+    const goToNewEventPage = (status: string) => {
+        router.push(`/events/new/${status}`)
+    }
+
     const [searchQuery, setSearchQuery] = useState("")
     const [sortColumn, setSortColumn] = useState<"date" | "name">("date")
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
@@ -149,33 +157,9 @@ export function EventsDataTable() {
                             }}
                         />
                     </div>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button className="bg-[#7340fd] hover:bg-[#7340fd]/90">
+                            <Button onClick={() => goToNewEventPage("active")}  className="bg-[#7340fd] hover:bg-[#7340fd]/90">
                                 <Plus className="mr-2 h-4 w-4" /> Create new event
                             </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>Create New Event</DialogTitle>
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid gap-2">
-                                    <Label htmlFor="name">Event Name</Label>
-                                    <Input id="name" placeholder="Enter event name" />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="date">Date</Label>
-                                    <Input id="date" type="date" />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="time">Time</Label>
-                                    <Input id="time" type="time" />
-                                </div>
-                                <Button className="mt-2 bg-[#7340fd] hover:bg-[#7340fd]/90">Create Event</Button>
-                            </div>
-                        </DialogContent>
-                    </Dialog>
                 </div>
             </div>
 

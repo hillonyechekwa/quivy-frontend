@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inria_Sans } from "next/font/google";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import CustomTrigger from "@/components/CustomTrigger";
+// import CustomTrigger from "@/components/CustomTrigger";
 import { AppSidebar } from "@/components/AppSidebar";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { verifySession } from "@/utils/dal";
 import Footer from "@/components/Footer";
@@ -49,7 +50,9 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${inriaSans.variable} antialiased `}
-      >{isAuth ? (
+      >
+      <Toaster />
+      {isAuth ? (
         <AuthContextProvider>
           <SidebarProvider className="overflow-x-hidden">
             <AppSidebar />
@@ -59,7 +62,7 @@ export default async function RootLayout({
                 {/* <CustomTrigger /> */}
               </div>
               {children}
-            </main>
+              </main>
           </SidebarProvider>
         </AuthContextProvider>
       ) : (

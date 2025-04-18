@@ -2,12 +2,12 @@ export interface Prize {
   name: string;
   description: string;
   quantity: number;
-  imageUrl: string;
-  imageFile: Blob | string;  
+  imageUrl?: string;
+  image: Blob | File | null;  
 }
 
 export interface EventFormData {
-  title: string;
+  name: string;
   description: string;
   date: Date;
   timeValue: Date;
@@ -23,7 +23,7 @@ export interface EventFormData {
 
 
 export interface EventData {
-  title: string;
+  name: string;
   description: string;
   date: Date;
   eventStartTime: Date;

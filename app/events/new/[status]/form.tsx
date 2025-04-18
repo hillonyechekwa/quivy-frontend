@@ -1,24 +1,30 @@
 "use client"
 
 import { Card } from "@/components/ui/card"
-import { ChevronLeftCircle} from "lucide-react"
+import { ChevronLeftCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { EventFormData, Prize, SidePanelState } from "./types"
-import { PrizePanel } from "./components/PrizePanel"
-import { PrizeList } from "./components/PrizeList"
-import { EventDetailsSection } from "./components/EventDetailsSection"
+import { EventFormData, Prize, SidePanelState } from "../../types"
+import { PrizePanel } from "../../components/PrizePanel"
+import { PrizeList } from "../../components/PrizeList"
+import { EventDetailsSection } from "../../components/EventDetailsSection"
+// import { useRouter } from 'next/navigation'
 
 
 interface EventsFormProps {
-    handleOpenForm: (open: boolean) => void,
-    eventStatus: string
+    eventStatus: string | string[] | undefined
+
 }
 
-const EventsForm = ({ handleOpenForm, eventStatus }: EventsFormProps) => {
+const EventsForm = ({ eventStatus }: EventsFormProps) => {
+
+    // const router = useRouter()
+
+    console.log('eventStatus', eventStatus)
+
     const [sidePanelState, setSidePanelState] = useState<SidePanelState>("none")
     const [eventFormData, setEventFormData] = useState<EventFormData>({
-        title: "",
+        name: "",
         description: "",
         date: new Date(),
         timeValue: new Date(),
@@ -32,13 +38,13 @@ const EventsForm = ({ handleOpenForm, eventStatus }: EventsFormProps) => {
         description: "",
         quantity: 1,
         imageUrl: "",
-        imageFile: ""
+        image: null
     })
     const [editingPrizeIndex, setEditingPrizeIndex] = useState<number | null>(null)
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
 
-    const handleFormDataChange = (data: Partial<FormData>) => {
+    const handleFormDataChange = (data: Partial<EventFormData>) => {
         setEventFormData(prev => ({ ...prev, ...data }))
     }
 
@@ -57,7 +63,7 @@ const EventsForm = ({ handleOpenForm, eventStatus }: EventsFormProps) => {
                 description: "",
                 quantity: 1,
                 imageUrl: "",
-                imageFile: ""
+                image: null
             })
             setSidePanelState("none")
             setSelectedImage(null)
@@ -101,77 +107,60 @@ const EventsForm = ({ handleOpenForm, eventStatus }: EventsFormProps) => {
         }
     }
 
+    console.log({ eventFormData, prizes })
+
+
     const handleSubmit = async (e: React.FormEvent) => {
-        console.log({eventFormData, prizes})
         const duration = eventFormData.hours * 60 + eventFormData.minutes
         const eventStartTime = new Date(eventFormData.timeValue)
-        const eventStartTimeMinutes = eventStartTime.getHours() * 60 + eventStartTime.getMinutes()
+        // const eventStartTimeMinutes = eventStartTime.getHours() * 60 + eventStartTime.getMinutes()
         const eventEndTime = new Date(eventStartTime.getTime() + duration * 60 * 1000)
-        const eventEndTimeMinutes = eventEndTime.getHours() * 60 + eventEndTime.getMinutes()
+        // const eventEndTimeMinutes = eventEndTime.getHours() * 60 + eventEndTime.getMinutes()
 
         e.preventDefault()
         // TODO: Implement form submission
 
         const eventData = {
-            title: eventFormData.title,
+            name: eventFormData.name,
             description: eventFormData.description,
             date: new Date(eventFormData.date),
             eventStartTime: eventStartTime,
             eventEndTime: eventEndTime,
-            qrCodeVaidityDuration: eventStartTimeMinutes + eventEndTimeMinutes,
-            status: eventStatus,
-            prizes: prizes.map(prize => ({
-                name: prize.name,
-                description: prize.description,
-                quantity: prize.quantity,
-                image: prize.imageFile
-            }))
+            qrCodeValidityDuration: duration, // Fixed property name and using correct duration
+            status: eventStatus as string,
         }
-
-        const formData = new FormData()
-
-        Object.entries(eventData).forEach(([key, value]) => {
-            if (value !== null && value !== undefined) {
-                if (key === 'date' || key === 'eventStartTime' || key === 'eventEndTime') {
-                    // Convert Date to ISO string
-                    formData.append(key, (value as Date).toISOString());
-                } else if (key === 'prizes') {
-                    // Don't append prizes array directly - we'll handle it separately
-                } else if (typeof value === 'number' || typeof value === 'boolean') {
-                    // Convert numbers and booleans to strings
-                    formData.append(key, value.toString());
-                } else if (typeof value === 'string') {
-                    // Strings can be appended directly
-                    formData.append(key, value);
-                }
-            }
-        })
+        prizes: prizes.map(prize => ({
+            name: prize.name,
+            description: prize.description,
+            quantity: prize.quantity,
+            image: prize.image
+        }))
+        console.log('eventdata', eventData)
+        
 
 
-        eventData.prizes.forEach((prize, index) => {
-            formData.append(`prizes[${index}][name]`, prize.name);
-            formData.append(`prizes[${index}][description]`, prize.description);
-            formData.append(`prizes[${index}][quantity]`, prize.quantity.toString());
+        // eventData.prizes.forEach((prize, index) => {
+        //     formData.append(`prizes[${index}][name]`, prize.name);
+        //     formData.append(`prizes[${index}][description]`, prize.description);
+        //     formData.append(`prizes[${index}][quantity]`, prize.quantity.toString());
 
-            // Handle the image file
-            if (prize.image instanceof Blob) {
-                formData.append(`prizes[${index}][image]`, prize.image);
-            }
-        });
-        // Log FormData entries
-        for (const pair of formData.entries()) {
-            console.log(`${pair[0]}: ${pair[1]}`);
-        }
+        //     // Handle the image file - changed field name to match backend expectation
+        //     if (prize.image instanceof Blob) {
+        //         formData.append('prizeImages', prize.image);
+        //     }
+        // });
 
         try {
             const response = await fetch("/api/events/createEvent", {
                 method: 'POST',
-                body: formData
+                body: JSON.stringify({eventData})
             })
+            console.log('form event response', response)
 
             if (response.ok) {
                 const data = await response.json()
-                console.log(data)
+                console.log('eventdata', data)
+                // router.push("/events/active-events")
             }
         } catch (error) {
             console.log("Error:", error)
@@ -184,7 +173,7 @@ const EventsForm = ({ handleOpenForm, eventStatus }: EventsFormProps) => {
             <ChevronLeftCircle
                 size={40}
                 className="relative left-5 stroke-gray-500 stroke-1 hover:stroke-gray-300 cursor-pointer"
-                onClick={() => handleOpenForm(false)}
+                onClick={() => window.history.back()}
             />
 
             <Card className="p-3 flex justify-between space-x-6">
@@ -230,7 +219,7 @@ const EventsForm = ({ handleOpenForm, eventStatus }: EventsFormProps) => {
                                         description: "",
                                         quantity: 1,
                                         imageUrl: "",
-                                        imageFile: ""
+                                        image: null
                                     })
                                     setEditingPrizeIndex(null)
                                     setSidePanelState(sidePanelState === "prize-add" ? "none" : "prize-add")

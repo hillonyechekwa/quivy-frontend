@@ -1,67 +1,45 @@
 import { authFetch } from "@/actions/authFetch";
 import { BACKEND_URL } from "@/utils/constants";
-
 import { NextRequest, NextResponse } from "next/server";
 
-// interface EventData {
-//     name: string;
-//     description: string;
-//     date: Date;
-//     eventStartTime: Date;
-//     eventEndTime: Date;
-//     qrCodeValidityDuration: number;
-//     status?: string
-//     prizes: Array<PrizesData>
-// }
-
-// interface PrizesData {
-//     name: string;
-//     description: string;
-//     image: File;
-//     quantity: number;
-//     status: string;
-// }
-
-// interface PrizesData{
-//     name: string;
-//     description: string;
-//     image: File;
-//     quantity: number;
-//     status: string;
-// }
-
-
 export async function POST(req: NextRequest) {
-    const formData = await req.formData();
+  const { eventData } = await req.json();
 
-     for (const pair of formData.entries()) {
-       console.log(`${pair[0]}: ${pair[1]}`);
-     }
+  console.log("Sending to backend:", eventData);
+  console.log("Backend URL:", `${BACKEND_URL}/events/create`);
+  console.log("BACKEND_URL:", BACKEND_URL);
+  console.log("Request payload:", JSON.stringify(eventData, null, 2));
 
-    try {
-        const response = await authFetch(`${BACKEND_URL}/events/create`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            body: formData,
-        });
+  try {
+    //
+    const response = await authFetch(`${BACKEND_URL}/events/create`, {
+      method: "POST",
+      body: JSON.stringify(eventData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-        if (!response.ok) {
-            return NextResponse.json(
-                { error: "Failed to create event" },
-                { status: 500 }
-            );
-        }
+    if (!response.ok) {
+      const errorText = await response
+        .text()
+        .catch(() => "No error details available");
+      console.error("Error response:", errorText);
 
-        const event = await response.json();
-
-        return NextResponse.json(event);
-    }catch(error) {
-        console.error("Error creating event:", error);
-        return NextResponse.json(
-            { error: "Failed to create event" },
-            { status: 500 }
-        );
+      return NextResponse.json(
+        { error: "Failed to create event" },
+        { status: response.status }
+      );
     }
+
+    const data = await response.json();
+
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    console.error("Error creating event:", error);
+    return NextResponse.json(
+      { error: "Failed to create event" },
+      { status: 500 }
+    );
+  }
 }

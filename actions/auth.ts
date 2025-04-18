@@ -145,6 +145,7 @@ export async function SignIn(prevState: FormState, formData: FormData): Promise<
         }
 
         const result = res.data
+        console.log('result', result)
         //create user session
         await createSession(result)
         shouldRedirect = true
@@ -168,18 +169,28 @@ export async function SignIn(prevState: FormState, formData: FormData): Promise<
 
 export async function refreshToken(oldRefreshToken?: string) {
     try {
-        const response = await axios.post(`${BACKEND_URL}/auth/refresh`, {}, {
+        const response = await fetch(`${BACKEND_URL}/auth/refresh`, {
+            method: 'POST',
             headers: {
                 "Authorization": `Bearer ${oldRefreshToken}`,
                 "Content-Type": "application/json"
             }
         })
 
-        if (response.status !== 200) {
-            throw new Error("failed to refresh token" + response.statusText)
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+
+            if (response.status === 401 || response.status === 403 ||
+                errorData.message?.includes('expired') ||
+                errorData.message?.includes('invalid')) {
+                // This is an expired or invalid refresh token
+                throw new Error('REFRESH_TOKEN_EXPIRED');
+            }
+
+            throw new Error(errorData.message || "Failed to refresh token");
         }
 
-        const { accessToken, refreshToken } = await response.data
+        const { accessToken, refreshToken } = await response.json()
         
         const updateRes = await axios.post("http://localhost:3000/api/auth/update", {
             accessToken,

@@ -4,27 +4,45 @@ import { Label } from "@/components/ui/label"
 import {DateSelector} from "../event-components/date-picker"
 import TimeSelector from "../event-components/time-picker"
 import DurationPicker from "../event-components/duration-picker"
-import { format } from 'date-fns'
-import { FormData } from "../types"
+import { format, add } from 'date-fns'
+import { EventFormData } from "../types"
 
 interface EventDetailsSectionProps {
-    formData: FormData
-    onFormDataChange: (data: Partial<FormData>) => void
+    formData: EventFormData
+    onFormDataChange: (data: Partial<EventFormData>) => void
 }
 
 export function EventDetailsSection({ formData, onFormDataChange }: EventDetailsSectionProps) {
     const duration = formData.hours * 60 + formData.minutes
+    console.log(duration, 'duration')
+
+    const calculateEndTime = (startTimeString: Date, durationHours: number, durationMinutes: number) => {
+        const startTime = new Date(startTimeString)
+
+        const duration = {
+            hours: durationHours,
+            minutes: durationMinutes,
+        }
+
+        const endTime = add(startTime, duration)
+
+        const formattedEndTime = format(endTime, 'hh:mm a')
+
+        return formattedEndTime
+    }
+
+    const eventEndTime = calculateEndTime(formData.timeValue, formData.hours, formData.minutes)
 
     return (
         <div className="space-y-8">
             <section className="flex flex-col space-y-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="name">Event Name</Label>
                 <Input
                     type="text"
-                    name="title"
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => onFormDataChange({ title: e.target.value })}
+                    name="name"
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => onFormDataChange({ name: e.target.value })}
                     className="w-[600px] p-5"
                 />
             </section>
@@ -67,7 +85,7 @@ export function EventDetailsSection({ formData, onFormDataChange }: EventDetails
                 </div>
             </section>
 
-            <p>{`This event will take place on ${format(formData.date, "MMMM d, yyyy")} from ${format(formData.timeValue, 'h:mm:a')} until ${format(new Date(formData.date.getTime() + duration * 60000), "hh:mm:a")}`}</p>
+            <p>{`This event will take place on ${format(formData.date, "MMMM d, yyyy")} from ${format(formData.timeValue, 'h:mm:a')} until ${eventEndTime}`}</p>
         </div>
     )
 }

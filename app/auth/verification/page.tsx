@@ -35,14 +35,36 @@ const VerificationPage = () => {
         const data = await response.json()
         if (data.status === 200) {
           console.log("Verification successful")
-          router.push("/dashboard")
         }
+        router.push("/dashboard")
       } else {
         console.error("Verification failed")
         setLoading(false)
         const errorData = await response.json()
         setError(errorData.message || "Verification failed")
       }
+    }
+  }
+
+
+  const resendOtp = async () => {
+    setLoading(true)
+    const response = await fetch("/api/auth/otpverification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (response.ok) {
+      setLoading(false)
+      const data = await response.json()
+      console.log("Resend OTP successful", data)
+    } else {
+      console.error("Resend OTP failed")
+      setLoading(false)
+      const errorData = await response.json()
+      setError(errorData.message || "Resend OTP failed")
     }
   }
 
@@ -64,7 +86,7 @@ const VerificationPage = () => {
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
-        <small>Didn&apos;t get the code? <p className={buttonVariants({variant: "link"})}>Resend</p></small>
+        <small>Didn&apos;t get the code? <p onClick={resendOtp} className={buttonVariants({variant: "link"})}>Resend</p></small>
         <Button type="button" onClick={handleOTPVerification}>
           {loading ? "Verifying..." : "Verify"}
         </Button>

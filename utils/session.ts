@@ -44,6 +44,7 @@ export async function getSession() {
 
         return session
     } catch (error) {
+        console.error(error)
         redirect("/")
     }
 }
