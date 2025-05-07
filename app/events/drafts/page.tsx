@@ -2,6 +2,7 @@
 
 import { DataTable } from "./draft-components/DataTable"
 import { Columns, type Draft } from "./draft-components/Columns"
+import {useQuery} from "@tanstack/react-query"
 
 // Sample data
 const drafts: Draft[] = [
