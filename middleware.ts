@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 //protected routes
 const protectedRoutes: string[] = []
-const publicRoutes: string[] = ["/", "/auth/signup", "/auth/sigin"]
+const publicRoutes: string[] = ["/", "/auth/signup", "/auth/sigin", "/results/win/*", "/results/loss/*"]
 
 export default async function middleware(req: NextRequest) {
     const path = req.nextUrl.pathname

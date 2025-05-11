@@ -14,6 +14,8 @@ import Image from "next/image";
 import Logo from "@/public/assets/Logo.png";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+import AppLayout from "@/app/providers";
+
 
 
 const SignUpPage = () => {
@@ -21,6 +23,7 @@ const SignUpPage = () => {
   const isMobile = useIsMobile()
   
   return (
+    <AppLayout>
       <section className="w-full flex flex-col justify-center md:justify-start items-center space-y-10">
         <div className="flex flex-col space-y-3 items-start justify-between">
           <Image src={Logo} alt="quivy logo" className="w-24 relative md:-left-48" />
@@ -74,6 +77,7 @@ const SignUpPage = () => {
           </CardContent>
         </Card>
       </section>
+      </AppLayout>
   );
 };
 

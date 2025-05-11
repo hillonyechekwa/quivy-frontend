@@ -6,6 +6,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp
 import { Card } from '@/components/ui/card'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import AppLayout from '@/app/providers'
 
 
 
@@ -14,6 +15,7 @@ const VerificationPage = () => {
 
   const [value, setValue] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
+  const [resending, setResending] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
@@ -48,7 +50,7 @@ const VerificationPage = () => {
 
 
   const resendOtp = async () => {
-    setLoading(true)
+    setResending(true)
     const response = await fetch("/api/auth/otpverification", {
       method: "POST",
       headers: {
@@ -57,12 +59,12 @@ const VerificationPage = () => {
     })
 
     if (response.ok) {
-      setLoading(false)
+      setResending(false)
       const data = await response.json()
       console.log("Resend OTP successful", data)
     } else {
       console.error("Resend OTP failed")
-      setLoading(false)
+      setResending(false)
       const errorData = await response.json()
       setError(errorData.message || "Resend OTP failed")
     }
@@ -70,6 +72,7 @@ const VerificationPage = () => {
 
 
   return (
+    <AppLayout>
     <section className="w-full flex flex-col justify-center md:justify-start items-center space-y-10">
       <Card className="flex flex-col items-center space-y-3 w-full">
         <div>
@@ -86,7 +89,7 @@ const VerificationPage = () => {
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
-        <small>Didn&apos;t get the code? <p onClick={resendOtp} className={buttonVariants({variant: "link"})}>Resend</p></small>
+        <small>Didn&apos;t get the code? <p onClick={resendOtp} className={`${buttonVariants({variant: "link"})} cursor-pointer`}>{resending ? "Requesting..." : "request a new otp"}</p></small>
         <Button type="button" onClick={handleOTPVerification}>
           {loading ? "Verifying..." : "Verify"}
         </Button>
@@ -94,6 +97,7 @@ const VerificationPage = () => {
 
       {error && <p className="text-red-500">{error}</p>}
     </section>
+    </AppLayout>
   )
 }
 

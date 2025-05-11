@@ -7,7 +7,7 @@ import { Separator } from "./ui/separator"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useAuthContext } from "@/hooks/useAuthContext"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
+// import Image from "next/image"
 
 
 

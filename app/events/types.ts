@@ -32,4 +32,23 @@ export interface EventData {
   // qrCodeValidityDuration:
 }
 
+
+export type EventType = {
+  id: string
+  description: string
+  date: Date
+  eventStartTime: Date
+  eventEndTime: Date
+  name: string
+  status: string
+  uniqueCode: string
+  qrCodeValidityDuration: number
+  clicks: number
+  scans: number
+  prizes: []
+  winners: []
+  createdAt: string
+}
+
+
 export type SidePanelState = "none" | "timer" | "prize-add";

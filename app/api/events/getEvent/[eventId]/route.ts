@@ -4,9 +4,8 @@ import { authFetch } from "@/actions/authFetch";
 import { NextRequest, NextResponse } from "next/server";
 
 
-export async function GET(req: NextRequest) {
-    const { searchParams } = new URL(req.url);
-    const eventId = searchParams.get("eventId");
+export async function GET(req: NextRequest, {params}: {params: {eventId: string}}) {
+    const {eventId} = params
 
     if (!eventId) {
         return NextResponse.json(

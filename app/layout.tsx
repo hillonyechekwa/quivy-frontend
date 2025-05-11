@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
 import { Inria_Sans } from "next/font/google";
-import { SidebarProvider } from "@/components/ui/sidebar";
-// import CustomTrigger from "@/components/CustomTrigger";
-import { AppSidebar } from "@/components/AppSidebar";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
-import { verifySession } from "@/utils/dal";
-import Footer from "@/components/Footer";
 import { AuthContextProvider } from "@/context/AuthContext";
-import AuthNav from "@/components/AuthNav";
+import { Providers } from "./providers";
 
 
 // const geistSans = Geist({
@@ -43,36 +38,18 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const isAuth = await verifySession()
-
-
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${inriaSans.variable} antialiased `}
       >
-      <Toaster />
-      {isAuth ? (
+        <Toaster />
         <AuthContextProvider>
-          <SidebarProvider className="overflow-x-hidden">
-            <AppSidebar />
-            <main className="font-[family-name:var(--font-inria-sans)] relative w-full bg-[#FAFAFA]">
-              <div className="flex justify-end items-center w-full relative p-5">
-                <AuthNav />
-                {/* <CustomTrigger /> */}
-              </div>
-              {children}
-              </main>
-          </SidebarProvider>
-        </AuthContextProvider>
-      ) : (
-        <span>
-          <main className="font-[family-name:var(--font-inria-sans)] flex-1 min-h-[100vh]">
+          <Providers>
             {children}
-          </main>
-          <Footer />
-        </span>
-      )}
+          </Providers>
+        </AuthContextProvider>
       </body>
     </html>
   );

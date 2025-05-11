@@ -9,19 +9,37 @@ import {
     SidebarMenuButton,
     SidebarFooter
 } from "./ui/sidebar"
+import {useContext} from "react"	
+import {Button} from "./ui/button"
 import { LayoutDashboard, Calendar, Clock, FileEdit, Bell, Settings, LogOut, CalendarCheck } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { AuthContext } from "@/context/AuthContext"
+// import { useRouter } from "next/navigation"
 // import { useState } from "react"
 
 
 
 export const AppSidebar = () => {
     const pathname = usePathname()
+    const authContext = useContext(AuthContext)
+
+    if (!authContext) {
+        throw new Error("AuthContext is undefined. Ensure that AuthContextProvider is wrapping the component tree.")
+    }
+
+    const {refreshAuth} = authContext
     // const [expandedMenu, setExpandedMenu] = useState(true)
 
-    
+    const handleLogout = async () => {
+        try{
+            await fetch("/api/auth/signout")
+            await refreshAuth()
+        }catch(error){
+            console.error("Logout failed", error)
+        }
+    }
     
     const menuItems = [
         {
@@ -77,7 +95,7 @@ export const AppSidebar = () => {
         {
             title: "Log out",
             icon: LogOut,
-            href: "/api/auth/signout",
+            href: "",
             hasNotification: false
         },
     ]
@@ -163,10 +181,10 @@ export const AppSidebar = () => {
                                 asChild
                                 className="h-10 gap-3 justify-start px-3 font-normal hover:bg-gray-100 rounded-md"
                             >
-                                <Link href={item.href} className="flex items-center gap-3">
-                                    <item.icon className="h-5 w-5" />
+                                <Button onClick={handleLogout} variant="default" className="flex items-center gap-3 w-full text-left">
+                                    <item.icon className="h-5 w-5"/>
                                     <span>{item.title}</span>
-                                </Link>
+                                </Button>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     ))}

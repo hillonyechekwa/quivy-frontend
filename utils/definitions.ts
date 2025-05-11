@@ -4,7 +4,8 @@ import {z} from 'zod'
 export type SessionPayload = {
     user: {
         userId: string,
-        email: string
+        email: string,
+        accountStatus: string
     },
     backendTokens: {
         accessToken: string,

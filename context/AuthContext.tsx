@@ -1,6 +1,6 @@
 "use client"
 
-import {createContext, useState, useEffect, ReactNode}  from "react"
+import { createContext, useState, useEffect, ReactNode } from "react"
 
 
 import { verifySession } from "@/utils/dal"
@@ -18,10 +18,10 @@ interface AuthContextType {
 }
 
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined) 
+export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 
-interface AuthProviderProps{
+interface AuthProviderProps {
     children: ReactNode
 }
 

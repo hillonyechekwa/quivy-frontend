@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
       method: "POST",
     });
 
+    console.log('response', response)
+
     if (response.ok) {
       return NextResponse.json({ message: "Verification successful" }, { status: 200 });
     } else {
