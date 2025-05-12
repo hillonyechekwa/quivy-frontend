@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { AuthContext } from "@/context/AuthContext"
-// import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 // import { useState } from "react"
 
 
@@ -24,6 +24,7 @@ import { AuthContext } from "@/context/AuthContext"
 export const AppSidebar = () => {
     const pathname = usePathname()
     const authContext = useContext(AuthContext)
+    const router = useRouter()
 
     if (!authContext) {
         throw new Error("AuthContext is undefined. Ensure that AuthContextProvider is wrapping the component tree.")
@@ -32,12 +33,17 @@ export const AppSidebar = () => {
     const {refreshAuth} = authContext
     // const [expandedMenu, setExpandedMenu] = useState(true)
 
-    const handleLogout = async () => {
-        try{
-            await fetch("/api/auth/signout")
-            await refreshAuth()
-        }catch(error){
-            console.error("Logout failed", error)
+    const handleClick = async (btnName: string) => {
+        if(btnName === "Settings"){
+            router.push("/settings")
+        }else {
+
+            try{
+                await fetch("/api/auth/signout")
+                await refreshAuth()
+            }catch(error){
+                console.error("Logout failed", error)
+            }
         }
     }
     
@@ -181,7 +187,7 @@ export const AppSidebar = () => {
                                 asChild
                                 className="h-10 gap-3 justify-start px-3 font-normal hover:bg-gray-100 rounded-md"
                             >
-                                <Button onClick={handleLogout} variant="default" className="flex items-center gap-3 w-full text-left">
+                                <Button onClick={() => {handleClick(item.title)}} variant="link" className="flex items-center gap-3 w-full text-left">
                                     <item.icon className="h-5 w-5"/>
                                     <span>{item.title}</span>
                                 </Button>

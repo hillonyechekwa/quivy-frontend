@@ -8,6 +8,7 @@ import { verifySession } from "@/utils/dal"
 type User = {
     id: string
     email: string
+    accountStatus: string
 }
 
 interface AuthContextType {
@@ -38,7 +39,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
             const sessionData = await verifySession()
             if (sessionData) {
                 setIsAuthenticated(sessionData.isAuth)
-                setUser({ id: sessionData.user.userId, email: sessionData.user.email })
+                setUser({ id: sessionData.user.userId, email: sessionData.user.email, accountStatus: sessionData.user.accountStatus })
             } else {
                 setIsAuthenticated(false)
                 setUser(null)

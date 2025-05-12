@@ -13,6 +13,8 @@ export async function GET() {
             }
         });
 
+        console.log('response', response)
+
         if (!response.ok) {
             return NextResponse.json(
                 { error: "Failed to fetch events" },

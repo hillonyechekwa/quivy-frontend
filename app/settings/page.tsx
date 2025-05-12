@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { Checkbox } from "@/components/ui/checkbox"
+import AppLayout from "@/app/providers"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function SettingsPage() {
@@ -75,6 +76,7 @@ export default function SettingsPage() {
   }
 
   return (
+    <AppLayout>
     <div className="container max-w-4xl mx-auto py-8 px-4">
       <div className="space-y-8">
         <div>
@@ -369,6 +371,7 @@ export default function SettingsPage() {
         </button>
       </div>
     </div>
+    </AppLayout>
   )
 }
 

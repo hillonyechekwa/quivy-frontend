@@ -61,7 +61,7 @@ const VerificationPage = () => {
     if (response.ok) {
       setResending(false)
       const data = await response.json()
-      console.log("Resend OTP successful", data)
+      console.log("Resend OTP successful", data) //TODO: add a toaster here
     } else {
       console.error("Resend OTP failed")
       setResending(false)

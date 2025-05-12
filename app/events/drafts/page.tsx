@@ -87,8 +87,8 @@ const DraftsPage = () => {
   const {data: events = []} = useQuery({
     queryKey: ["drafts"],
     queryFn: async () => {
-      const response = await fetch("/api/getEvents")
-      const result = response.json()
+      const response = await fetch("/api/events/getEvents")
+      const result = await response.json()
       return result
     }
   })
