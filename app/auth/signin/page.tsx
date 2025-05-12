@@ -32,7 +32,7 @@ const SignInPage = () => {
             <p>Go Back</p>
           </Link>
         </div>
-        <Card className="w-full md:w-3/4">
+        <Card className="w-full md:w-auto">
           <CardHeader>
             <section className="w-auto flex flex-col items-center justify-between space-y-3">
               <h3 className="font-semibold text-xl">Sign In</h3>
