@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ChevronRight, ChevronDown, ChevronUp, Search, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { EventType } from "../types"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
@@ -27,22 +28,22 @@ type Event = {
 }
 
 // Sample data
-const events: Event[] = [
-    { id: "1", date: new Date(2023, 11, 27), time: "11:00 AM", name: "Innovation Ignite" },
-    { id: "2", date: new Date(2023, 11, 27), time: "01:00 PM", name: "Pioneer Pathway" },
-    { id: "3", date: new Date(2023, 11, 27), time: "01:30 PM", name: "Elevate Experience" },
-    { id: "4", date: new Date(2023, 11, 27), time: "02:00 PM", name: "Momentum Connect" },
-    { id: "5", date: new Date(2023, 11, 27), time: "02:00 PM", name: "Trailblazers' Meetup" },
-    { id: "6", date: new Date(2023, 11, 27), time: "03:00 PM", name: "Spark Session" },
-    { id: "7", date: new Date(2023, 11, 28), time: "09:00 AM", name: "Morning Briefing" },
-    { id: "8", date: new Date(2023, 11, 28), time: "10:30 AM", name: "Strategy Summit" },
-    { id: "9", date: new Date(2023, 11, 28), time: "01:00 PM", name: "Insight Workshop" },
-    { id: "10", date: new Date(2023, 11, 29), time: "11:00 AM", name: "Future Forum" },
-    { id: "11", date: new Date(2023, 11, 29), time: "02:00 PM", name: "Collaboration Conference" },
-    { id: "12", date: new Date(2023, 11, 30), time: "10:00 AM", name: "Vision Venture" },
-]
+// const events: Event[] = [
+//     { id: "1", date: new Date(2023, 11, 27), time: "11:00 AM", name: "Innovation Ignite" },
+//     { id: "2", date: new Date(2023, 11, 27), time: "01:00 PM", name: "Pioneer Pathway" },
+//     { id: "3", date: new Date(2023, 11, 27), time: "01:30 PM", name: "Elevate Experience" },
+//     { id: "4", date: new Date(2023, 11, 27), time: "02:00 PM", name: "Momentum Connect" },
+//     { id: "5", date: new Date(2023, 11, 27), time: "02:00 PM", name: "Trailblazers' Meetup" },
+//     { id: "6", date: new Date(2023, 11, 27), time: "03:00 PM", name: "Spark Session" },
+//     { id: "7", date: new Date(2023, 11, 28), time: "09:00 AM", name: "Morning Briefing" },
+//     { id: "8", date: new Date(2023, 11, 28), time: "10:30 AM", name: "Strategy Summit" },
+//     { id: "9", date: new Date(2023, 11, 28), time: "01:00 PM", name: "Insight Workshop" },
+//     { id: "10", date: new Date(2023, 11, 29), time: "11:00 AM", name: "Future Forum" },
+//     { id: "11", date: new Date(2023, 11, 29), time: "02:00 PM", name: "Collaboration Conference" },
+//     { id: "12", date: new Date(2023, 11, 30), time: "10:00 AM", name: "Vision Venture" },
+// ]
 
-export function EventsDataTable() {
+export function EventsDataTable({events}: {events: EventType[]}) {
     const [searchQuery, setSearchQuery] = useState("")
     const [sortColumn, setSortColumn] = useState<"date" | "name">("date")
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
