@@ -1,11 +1,13 @@
 import { Input } from "@/components/ui/input"
+// import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import {DateSelector} from "../event-components/date-picker"
 import TimeSelector from "../event-components/time-picker"
-import DurationPicker from "../event-components/duration-picker"
-import { format, add } from 'date-fns'
+// import DurationPicker from "../event-components/duration-picker"
+import DurationSelector from "../event-components/duration-selector"
 import { EventFormData } from "../types"
+import {format, add} from 'date-fns'
 
 interface EventDetailsSectionProps {
     formData: EventFormData
@@ -13,26 +15,35 @@ interface EventDetailsSectionProps {
 }
 
 export function EventDetailsSection({ formData, onFormDataChange }: EventDetailsSectionProps) {
+
+
     const duration = formData.hours * 60 + formData.minutes
     console.log(duration, 'duration')
 
-    const calculateEndTime = (startTimeString: Date, durationHours: number, durationMinutes: number) => {
-        const startTime = new Date(startTimeString)
+    const calculateEndTime = (startTimeString: Date, startDateString: Date, durationHours: number, durationMinutes: number) => {
+        const combinedStartDateTime = new Date(
+            startDateString.getFullYear(),
+            startDateString.getMonth(),
+            startDateString.getDate(),
+            startTimeString.getHours(),
+            startTimeString.getMinutes()
+        );
 
-        const duration = {
+         const endTime = add(combinedStartDateTime, {
             hours: durationHours,
             minutes: durationMinutes,
+        });
+
+        const formattedEndTime = format(endTime, "MMMM d, yyyy h:mm a");
+
+        return {
+            endTime,
+            formattedEndTime
         }
-
-        const endTime = add(startTime, duration)
-
-        const formattedEndTime = format(endTime, 'hh:mm a')
-
-        return formattedEndTime
     }
 
-    const eventEndTime = calculateEndTime(formData.timeValue, formData.hours, formData.minutes)
-
+    const eventEndTime = calculateEndTime(formData.timeValue,formData.date, formData.hours, formData.minutes)
+    
     return (
         <div className="space-y-8">
             <section className="flex flex-col space-y-2">
@@ -76,7 +87,7 @@ export function EventDetailsSection({ formData, onFormDataChange }: EventDetails
                 </div>
                 <div className="flex flex-col space-y-2">
                     <Label>Duration</Label>
-                    <DurationPicker
+                    <DurationSelector
                         hours={formData.hours}
                         minutes={formData.minutes}
                         handleHours={(hours) => onFormDataChange({ hours })}
@@ -85,7 +96,7 @@ export function EventDetailsSection({ formData, onFormDataChange }: EventDetails
                 </div>
             </section>
 
-            <p>{`This event will take place on ${format(formData.date, "MMMM d, yyyy")} from ${format(formData.timeValue, 'h:mm:a')} until ${eventEndTime}`}</p>
+            <p>{`This event will take place on ${format(formData.date, "MMMM d, yyyy")} from ${format(formData.timeValue, 'h:mm:a')} until ${eventEndTime.formattedEndTime}`}</p>
         </div>
     )
 }

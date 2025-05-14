@@ -8,6 +8,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AppSidebar } from "@/components/AppSidebar"
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools"
+import VerificationBanner from "@/components/VerificationBanner"
 // import CustomTrigger from "@/components/CustomTrigger";
 import Footer from "@/components/Footer"
 import { AuthContext } from "@/context/AuthContext"
@@ -50,6 +51,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
             <AppSidebar />
 
             <main className="font-[family-name:var(--font-inria-sans)] relative w-full bg-[#FAFAFA]">
+                <VerificationBanner />
                 <div className="flex justify-end items-center w-full relative p-5">
                     <AuthNav />
                 </div>

@@ -18,14 +18,15 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { format } from "date-fns"
+import {useRouter} from "next/navigation"
 
 // Define the event type
-type Event = {
-    id: string
-    date: Date
-    time: string
-    name: string
-}
+// type Event = {
+//     id: string
+//     date: Date
+//     time: string
+//     name: string
+// }
 
 // Sample data
 // const events: Event[] = [
@@ -50,21 +51,28 @@ export function EventsDataTable({events}: {events: EventType[]}) {
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6
 
+    const router = useRouter()
+
     // Filter events based on search query
     const filteredEvents = events.filter(
         (event) =>
             event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            format(event.date, "MMM d").toLowerCase().includes(searchQuery.toLowerCase()) ||
-            event.time.toLowerCase().includes(searchQuery.toLowerCase()),
+            format(new Date(event.date), "MMM d").toLowerCase().includes(searchQuery.toLowerCase()) ||
+            format(new Date(event.eventStartTime), "hh:mm:a").toLowerCase().includes(searchQuery.toLowerCase()),
     )
 
     // Sort events
     const sortedEvents = [...filteredEvents].sort((a, b) => {
-        if (sortColumn === "date") {
-            const dateComparison = a.date.getTime() - b.date.getTime()
+         if (sortColumn === "date") {
+
+            const dateA = new Date(a.date).getDate();
+            const dateB = new Date(b.date).getDate();
+            const dateComparison = dateA - dateB
             if (dateComparison === 0) {
-                // If dates are the same, sort by time
-                return a.time.localeCompare(b.time)
+                // If dates are the same, sort by start time
+                const timeA = typeof a.eventStartTime === 'string' ? a.eventStartTime : String(a.eventStartTime);
+                const timeB = typeof b.eventStartTime === 'string' ? b.eventStartTime : String(b.eventStartTime);
+                return timeA.localeCompare(timeB);
             }
             return sortDirection === "asc" ? dateComparison : -dateComparison
         } else {
@@ -211,17 +219,23 @@ export function EventsDataTable({events}: {events: EventType[]}) {
                     </TableHeader>
                     <TableBody>
                         {paginatedEvents.length > 0 ? (
-                            paginatedEvents.map((event) => (
-                                <TableRow key={event.id} className="hover:bg-[#f1ecff]/30 cursor-pointer group">
+                            paginatedEvents.map((event) => {
+                                const handleRowClick = () => {
+                  router.push(`/events/scheduled-events/${event.id}`)
+                }
+                                return (
+                                <TableRow key={event.id} 
+                                onClick={handleRowClick}
+                                className="hover:bg-[#f1ecff]/30 cursor-pointer group">
                                     <TableCell className="font-medium">
-                                        {format(event.date, "MMM d")}, {event.time}
+                                        {format(event.date, "MMM d")}, {format(event.eventStartTime, "hh:mm:a")}
                                     </TableCell>
                                     <TableCell>{event.name}</TableCell>
                                     <TableCell>
                                         <ChevronRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                                     </TableCell>
                                 </TableRow>
-                            ))
+                            )})
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={3} className="h-24 text-center">

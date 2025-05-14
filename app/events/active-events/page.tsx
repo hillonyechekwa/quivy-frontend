@@ -24,6 +24,7 @@ const ActiveEventsPage = () => {
   console.log('events',  events)
   const activeEvents = events?.filter((event: EventType) => event.status === 'ACTIVE')
 
+  console.log('activeEvents', activeEvents)
   const goToNewEventPage = (status: string) => {
     router.push(`/events/new/${status}`)
   }
@@ -37,7 +38,7 @@ const ActiveEventsPage = () => {
         <EventsDataTable events={activeEvents} />
         :
         (
-          <div className="flex flex-col space-y-2 justify-center items-center text-wrap w-full">
+          <div className="flex flex-col space-y-2 justify-center items-center text-wrap w-full min-h-screen">
             <Calendar size={80} className="stroke-quivyPurple/30"/>
             <p className="text-md  text-gray-300 text-wrap">Create an event and make it more engaging with an exciting giveaway for your audience!</p>
             <Button className="w-[400px] bg-quivyPurple text-white p-5" onClick={() => goToNewEventPage('active')}>Create Event</Button>

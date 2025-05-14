@@ -41,6 +41,7 @@ export const AppSidebar = () => {
             try{
                 await fetch("/api/auth/signout")
                 await refreshAuth()
+                router.push("/")
             }catch(error){
                 console.error("Logout failed", error)
             }

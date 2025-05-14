@@ -9,7 +9,7 @@ import {useRouter} from "next/navigation"
 import AppLayout from '@/app/providers'
 
 
-const ScheduledEventsage = () => {
+const ScheduledEventsPage = () => {
 
   const router = useRouter()
 
@@ -37,7 +37,7 @@ const ScheduledEventsage = () => {
         <EventsDataTable events={upcomingEvents} />
         :
         (
-           <div className="flex flex-col space-y-2 justify-center items-center text-wrap w-full">
+           <div className="flex flex-col space-y-2 justify-center items-center text-wrap w-full min-h-screen">
               <Calendar size={80} className="stroke-quivyPurple/30"/>
               <p className="text-md  text-gray-300 text-wrap">Create an event and make it more engaging with an exciting giveaway for your audience!</p>
               <Button className="w-[400px] bg-quivyPurple text-white p-5" onClick={() => goToNewEventPage('upcoming')}>Create Event</Button>
@@ -49,4 +49,4 @@ const ScheduledEventsage = () => {
   )
 }
 
-export default ScheduledEventsage
+export default ScheduledEventsPage

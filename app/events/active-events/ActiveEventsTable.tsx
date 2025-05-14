@@ -47,6 +47,8 @@ export function EventsDataTable({ events }: { events: EventType[] }) {
     router.push(`/events/new/${status}`)
   }
 
+ 
+
   const [searchQuery, setSearchQuery] = useState("")
   const [sortColumn, setSortColumn] = useState<"date" | "name">("date")
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
@@ -65,10 +67,15 @@ export function EventsDataTable({ events }: { events: EventType[] }) {
   // Sort events
   const sortedEvents = [...filteredEvents].sort((a, b) => {
     if (sortColumn === "date") {
-      const dateComparison = a.date.getTime() - b.date.getTime()
+
+      const dateA = new Date(a.date).getDate();
+      const dateB = new Date(b.date).getDate();
+      const dateComparison = dateA - dateB
       if (dateComparison === 0) {
         // If dates are the same, sort by start time
-        return String(a.eventStartTime).localeCompare(String(b.eventStartTime))
+        const timeA = typeof a.eventStartTime === 'string' ? a.eventStartTime : String(a.eventStartTime);
+        const timeB = typeof b.eventStartTime === 'string' ? b.eventStartTime : String(b.eventStartTime);
+        return timeA.localeCompare(timeB);
       }
       return sortDirection === "asc" ? dateComparison : -dateComparison
     } else {
@@ -136,6 +143,8 @@ export function EventsDataTable({ events }: { events: EventType[] }) {
     return items
   }
 
+
+
   return (
     <div className="space-y-4 w-full h-auto p-5 bg-white rounded-md">
       <div className="flex items-center justify-between">
@@ -191,8 +200,12 @@ export function EventsDataTable({ events }: { events: EventType[] }) {
           </TableHeader>
           <TableBody className="h-auto">
             {paginatedEvents.length > 0 ? (
-              paginatedEvents.map((event) => (
-                <TableRow key={event.id} className="hover:bg-[#f1ecff]/30 cursor-pointer group mb-8 p-6">
+              paginatedEvents.map((event) => {
+                const handleRowClick = () => {
+                  router.push(`/events/active-events/${event.id}`)
+                }
+                return (
+                <TableRow key={event.id} onClick={handleRowClick} className="hover:bg-[#f1ecff]/30 cursor-pointer group mb-8 p-6">
                   <TableCell className="font-medium">
                     {format(event.date, "MMM d")}, {format(event.eventStartTime, "h:mm a")}
                   </TableCell>
@@ -201,7 +214,7 @@ export function EventsDataTable({ events }: { events: EventType[] }) {
                     <ChevronRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                   </TableCell>
                 </TableRow>
-              ))
+              )})
             ) : (
               <TableRow>
                 <TableCell colSpan={3} className="h-24 text-center">

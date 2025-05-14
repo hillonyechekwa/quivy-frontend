@@ -4,11 +4,12 @@ import { Card } from "@/components/ui/card"
 import { ChevronLeftCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { EventFormData, Prize, SidePanelState } from "../../types"
+import { EventFormData, EventData, Prize, SidePanelState } from "../../types"
 import { PrizePanel } from "../../components/PrizePanel"
 import { PrizeList } from "../../components/PrizeList"
 import { EventDetailsSection } from "../../components/EventDetailsSection"
-// import { useRouter } from 'next/navigation'
+import {useToast} from "@/hooks/use-toast"
+import { useRouter } from 'next/navigation'
 
 
 interface EventsFormProps {
@@ -18,11 +19,13 @@ interface EventsFormProps {
 
 const EventsForm = ({ eventStatus }: EventsFormProps) => {
 
-    // const router = useRouter()
+    const router = useRouter()
+    const { toast } = useToast()
 
     console.log('eventStatus', eventStatus)
 
     const [sidePanelState, setSidePanelState] = useState<SidePanelState>("none")
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [eventFormData, setEventFormData] = useState<EventFormData>({
         name: "",
         description: "",
@@ -100,7 +103,7 @@ const EventsForm = ({ eventStatus }: EventsFormProps) => {
             setSelectedImage(imageURL)
             setNewPrize(prev => ({
                 ...prev,
-                imageFile: file,
+                image: file,
                 imageUrl: imageURL
             }))
             setError(null)
@@ -110,63 +113,132 @@ const EventsForm = ({ eventStatus }: EventsFormProps) => {
     console.log({ eventFormData, prizes })
 
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        const duration = eventFormData.hours * 60 + eventFormData.minutes
-        const eventStartTime = new Date(eventFormData.timeValue)
-        // const eventStartTimeMinutes = eventStartTime.getHours() * 60 + eventStartTime.getMinutes()
-        const eventEndTime = new Date(eventStartTime.getTime() + duration * 60 * 1000)
-        // const eventEndTimeMinutes = eventEndTime.getHours() * 60 + eventEndTime.getMinutes()
-
-        e.preventDefault()
-        // TODO: Implement form submission
-
-        const eventData = {
-            name: eventFormData.name,
-            description: eventFormData.description,
-            date: new Date(eventFormData.date),
-            eventStartTime: eventStartTime,
-            eventEndTime: eventEndTime,
-            qrCodeValidityDuration: duration, // Fixed property name and using correct duration
-            status: eventStatus as string,
-        }
-        prizes: prizes.map(prize => ({
-            name: prize.name,
-            description: prize.description,
-            quantity: prize.quantity,
-            image: prize.image
-        }))
-        console.log('eventdata', eventData)
-        
-
-
-        // eventData.prizes.forEach((prize, index) => {
-        //     formData.append(`prizes[${index}][name]`, prize.name);
-        //     formData.append(`prizes[${index}][description]`, prize.description);
-        //     formData.append(`prizes[${index}][quantity]`, prize.quantity.toString());
-
-        //     // Handle the image file - changed field name to match backend expectation
-        //     if (prize.image instanceof Blob) {
-        //         formData.append('prizeImages', prize.image);
-        //     }
-        // });
-
+ const createEvent = async (eventData: Partial<EventData>) => {
         try {
             const response = await fetch("/api/events/createEvent", {
                 method: 'POST',
-                body: JSON.stringify({eventData})
-            })
-            console.log('form event response', response)
+                body: JSON.stringify({ eventData }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            if (response.ok) {
-                const data = await response.json()
-                console.log('eventdata', data)
-                // router.push("/events/active-events")
+            if (!response.ok) {
+                throw new Error(`Failed to create event: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data.id;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    // Helper function to create prizes
+    const createPrizes = async (prizes: Prize[], eventId: string) => {
+        try {
+            const formData = new FormData();
+
+            prizes.forEach((prize: Prize, index: number) => {
+                formData.append(`prizes[${index}][name]`, prize.name);
+                formData.append(`prizes[${index}][description]`, prize.description);
+                formData.append(`prizes[${index}][quantity]`, String(prize.quantity));
+                if (prize.image) {
+                    formData.append(`prizes[${index}][image]`, prize.image);
+                }
+            });
+
+            for (const key of formData.keys()) {
+                console.log(`${key}: ${formData.get(key)}`);
+            }
+
+            const response = await fetch(`/api/prizes/createPrizes/${eventId}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to create prizes: ${response.statusText}`);
+            }
+
+            return true;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        try {
+            // 1. Calculate event times
+            const duration = eventFormData.hours * 60 + eventFormData.minutes;
+            const eventStartTime = new Date(eventFormData.timeValue);
+            const eventEndTime = new Date(eventStartTime.getTime() + duration * 60 * 1000);
+
+            // 2. Prepare event data
+            const eventData = {
+                name: eventFormData.name,
+                description: eventFormData.description,
+                date: new Date(eventFormData.date),
+                eventStartTime,
+                eventEndTime,
+                qrCodeValidityDuration: duration,
+                status: eventStatus as string,
+            };
+
+            // 3. Create and submit the event first
+            const eventResponse = await createEvent(eventData);
+
+            // const eventId = eventResponse.event.id
+            const eventId = eventResponse
+            if (!eventId) {
+                setIsLoading(false);
+                toast({
+                    variant: "destructive",
+                    title: "Error",
+                    description: "Failed to create event - no event ID returned"
+                });
+                return;
+            }
+
+            // 4. Prepare and submit prize data using the eventId
+            if (prizes.length > 0) {
+                const success = await createPrizes(prizes, eventId);
+                if (success) {
+                    toast({
+                        title: "Success",
+                        description: "Event created successfully",
+                    });
+                    router.push("/events/active-events");
+                } else {
+                    toast({
+                        variant: "destructive",
+                        title: "Warning",
+                        description: "Event created but there was an issue with prizes"
+                    });
+                }
+            } else {
+                toast({
+                    variant: "default",
+                    title: "Event Created",
+                    description: "Event created successfully with no prizes added"
+                });
+                router.push("/events/active-events");
             }
         } catch (error) {
-            console.log("Error:", error)
+            const errorMessage = error instanceof Error ? error.message : "Something went wrong";
+            toast({
+                variant: "destructive",
+                title: "Error Creating Event",
+                description: errorMessage
+            });
+            console.error("Submission error:", error);
+        } finally {
+            setIsLoading(false);
         }
-
-    }
+    };
 
     return (
         <section className="w-auto h-auto flex flex-col items-start justify-between space-y-5 p-10 relative">
@@ -182,28 +254,6 @@ const EventsForm = ({ eventStatus }: EventsFormProps) => {
                         formData={eventFormData}
                         onFormDataChange={handleFormDataChange}
                     />
-
-                    {/* <div className="space-y-2 w-full bg-gray-200 rounded-md p-3">
-                        <div className="flex justify-between items-center">
-                            <label className="text-sm font-medium">Timer</label>
-                            <Button
-                                type="button"
-                                variant="default"
-                                size="sm"
-                                onClick={() => setSidePanelState(sidePanelState === "timer" ? "none" : "timer")}
-                            >
-                                Set
-                            </Button>
-                        </div>
-                        <div className="text-2xl font-medium">
-                            {formData.timer.hours}:{formData.timer.minutes}:{formData.timer.seconds}
-                        </div>
-                        <div className="flex space-x-4 text-xs text-gray-500">
-                            <span>Hrs</span>
-                            <span>Min</span>
-                            <span>Sec</span>
-                        </div>
-                    </div> */}
 
                     <div className="space-y-2 w-full">
                         <div className="flex justify-between items-center">
@@ -236,8 +286,11 @@ const EventsForm = ({ eventStatus }: EventsFormProps) => {
                         />
                     </div>
 
-                    <Button type="submit" className="w-full bg-quivyPurple text-white hover:bg-quivyPurple/50">
-                        Create Event
+                    <Button type="submit" className="w-full bg-quivyPurple text-white hover:bg-quivyPurple/50"
+                    disabled={isLoading}
+                    >
+                        {isLoading ? "Creating your event..." : "Create Event"}
+
                     </Button>
                 </form>
 

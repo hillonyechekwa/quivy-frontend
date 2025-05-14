@@ -2,8 +2,7 @@
 import React from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
-// If you are using date-fns v3.x or v4.x, please import the v3 adapter
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { TimePicker } from '@mui/x-date-pickers';
 
 interface TimePickerProps {

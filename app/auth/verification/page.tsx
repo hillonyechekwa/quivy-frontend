@@ -73,7 +73,7 @@ const VerificationPage = () => {
 
   return (
     <AppLayout>
-    <section className="w-full flex flex-col justify-center md:justify-start items-center space-y-10">
+    <section className="w-auto flex flex-col justify-center md:justify-start items-center space-y-10">
       <Card className="flex flex-col items-center space-y-3 w-full">
         <div>
           <h2>Verify your email address</h2>

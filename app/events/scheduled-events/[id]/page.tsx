@@ -33,7 +33,7 @@ import { useQuery } from "@tanstack/react-query"
 
 
 
-export function DraftsTemplatePage() {
+export function ScheduledEventTemplatePage() {
   const isMobile = useIsMobile()
   const params = useParams()
   const id = params.id
