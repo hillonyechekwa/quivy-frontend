@@ -107,7 +107,7 @@ export function PrizePanel({
                             <Image
                                 width={150}
                                 height={150}
-                                src={selectedImage || prize.imageUrl}
+                                src={selectedImage || prize.imageUrl || ""}
                                 alt="product-image"
                                 className="object-cover"
                             />
