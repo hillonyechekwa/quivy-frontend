@@ -6,12 +6,10 @@ import ErrorPage from '@/components/ErrorPage'
 
 
 type Props = {
-  params: {
-    id: string
-  }
+  params: Promise<{id: string}>;
 }
 
-const Page = async ({ params }: Props) => {
+export default async function Page({ params }: Props) {
   const { id } = await params
 
   
@@ -24,4 +22,3 @@ const Page = async ({ params }: Props) => {
   )
 }
 
-export default Page
