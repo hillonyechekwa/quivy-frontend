@@ -6,12 +6,10 @@ import ErrorPage from "@/components/ErrorPage"
 
 
 type Props = {
-  params: {
-    id: string
-  }
+  params: Promise<{id: string}>
 }
 
-const Page = async  ({params}: Props) => {
+export default async function Page ({params}: Props) {
     const { id } = await params
     return(
         <AsyncBoundary loadingFallback={<Loader />} errorFallback={<ErrorPage content="Couldn&apos;t load Qr Code page" />}>
@@ -19,5 +17,3 @@ const Page = async  ({params}: Props) => {
         </AsyncBoundary>
     )
 }
-
-export default Page
