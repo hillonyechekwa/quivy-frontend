@@ -4,8 +4,10 @@ import { authFetch } from "@/actions/authFetch";
 import { NextRequest, NextResponse } from "next/server";
 
 
-export async function GET(req: NextRequest, {params}: {params: {eventId: string}}) {
-    const {eventId} = await params
+export async function GET(req: NextRequest, context: {params: Promise<{eventId: string}>}) {
+    
+    const params = await context.params
+    const {eventId} = params
 
 
     console.log(eventId, 'eventId')

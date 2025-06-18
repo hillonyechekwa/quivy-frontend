@@ -4,11 +4,12 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { eventId: string } }
+  context: { params : Promise<{ eventId: string }> }
 ) {
 
   const formData = await req.formData()
-  const { eventId } = await params;
+  const params = await context.params
+  const { eventId } =  params;
 
   console.log("prizes eventId", eventId)
 
