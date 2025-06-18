@@ -5,7 +5,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 export async function GET(req: NextRequest, {params}: {params: {eventId: string}}) {
-    const {eventId} = params
+    const {eventId} = await params
+
+
+    console.log(eventId, 'eventId')
 
     if (!eventId) {
         return NextResponse.json(
@@ -22,7 +25,11 @@ export async function GET(req: NextRequest, {params}: {params: {eventId: string}
             }
         });
 
+        
+
         if (!response.ok) {
+            const errResponse = await response.text()
+            console.error('Error response body', errResponse)
             return NextResponse.json(
                 { error: "Failed to fetch event" },
                 { status: 500 }
@@ -30,8 +37,9 @@ export async function GET(req: NextRequest, {params}: {params: {eventId: string}
         }
 
         const event = await response.json();
+        console.log('event', event)
 
-        return NextResponse.json(event);
+        return NextResponse.json(event, {status: 200});
     } catch (error) {
         console.error("Error fetching event:", error);
         return NextResponse.json(

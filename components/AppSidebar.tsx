@@ -113,7 +113,7 @@ export const AppSidebar = () => {
     }
 
     return (
-        <Sidebar  className="border-r bg-white w-60">
+        <Sidebar  className="border-r bg-white w-60" collapsible="offcanvas">
             <SidebarHeader className="py-6 px-6">
                 <Link href="/" className="flex items-center">
                     <h1 className="text-xl font-semibold text-purple-500">Quivy</h1>

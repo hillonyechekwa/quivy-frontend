@@ -9,10 +9,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AppSidebar } from "@/components/AppSidebar"
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools"
 import VerificationBanner from "@/components/VerificationBanner"
-// import CustomTrigger from "@/components/CustomTrigger";
+import CustomTrigger from "@/components/CustomTrigger";
 import Footer from "@/components/Footer"
 import { AuthContext } from "@/context/AuthContext"
 import AuthNav from "@/components/AuthNav"
+
 
 
 
@@ -47,6 +48,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
             <Footer />
         </>
     ) : (
+        
         <SidebarProvider className="overflow-x-hidden">
             <AppSidebar />
 
@@ -54,6 +56,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 <VerificationBanner />
                 <div className="flex justify-end items-center w-full relative p-5">
                     <AuthNav />
+                    <CustomTrigger />
                 </div>
                 {children}
             </main>

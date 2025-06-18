@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/input"
 import appleLogo from "@/public/assets/illustrations/Apple Logo (1).png"
 import googleLogo from "@/public/assets/illustrations/Google Logo.png"
 import Image from "next/image"
-import Lottie from "react-lottie"
+import dynamic from 'next/dynamic'
 // import Barcodeanim from "@/public/assets/animations/barcode.json"
 import Heroanim from "@/public/assets/animations/hero.json"
 import { useResponsive } from "@/hooks/use-responsive"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
+
+
 
 const Hero = () => {
     // const barcodeLottieOptions = {
@@ -23,6 +25,8 @@ const Hero = () => {
     //         preserveAspectRatio: "xMidYMid slice",
     //     },
     // }
+
+    const Lottie = dynamic(() => import('react-lottie'), {ssr: false});
 
     const heroLottieOptions = {
         loop: true,

@@ -32,7 +32,7 @@ const VerificationBanner = () => {
 
     console.log(user, "user in verification banner")
 
-
+ 
     return (
         <div>
             {

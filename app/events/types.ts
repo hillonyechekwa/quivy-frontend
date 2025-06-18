@@ -36,19 +36,44 @@ export interface EventData {
 export type EventType = {
   id: string
   description: string
-  date: Date
-  eventStartTime: Date
-  eventEndTime: Date
+  date: string
+  eventStartTime: string
+  eventEndTime: string
   name: string
   status: string
   uniqueCode: string
+  qrCodeUrl: string
   qrCodeValidityDuration: number
   clicks: number
   scans: number
-  prizes: []
-  winners: []
+  prizes: PrizeType[]
+  winners: WinnerType []
   createdAt: string
 }
 
+
+export type PrizeType = {
+  id: string
+  name: string
+  description: string
+  imageUrl: string
+  quantity: number
+  status: string
+  winners?: string
+}
+
+
+export type WinnerType = {
+  id: string
+  eventId: string
+  selectedAt: string
+  name: string
+  email: string
+  phoneNumber: number
+  address: string
+  // prize: PrizeType
+  prizeId: string
+  uniqueCode: string
+}
 
 export type SidePanelState = "none" | "timer" | "prize-add";

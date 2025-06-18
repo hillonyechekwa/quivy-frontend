@@ -211,7 +211,7 @@ const EventsForm = ({ eventStatus }: EventsFormProps) => {
                         title: "Success",
                         description: "Event created successfully",
                     });
-                    router.push("/events/active-events");
+                    router.push(`/events/code/${eventId}`)
                 } else {
                     toast({
                         variant: "destructive",
