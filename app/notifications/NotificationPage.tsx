@@ -3,10 +3,10 @@
 // import { useState } from "react"
 import { Calendar, Bell } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AsyncBoundary } from "@/components/AsyncBoundary"
-import Loader from "@/components/Loader"
-import ErrorPage from "@/components/ErrorPage"
-import { useQuery } from "@tanstack/react-query"
+// import { AsyncBoundary } from "@/components/AsyncBoundary"
+// import Loader from "@/components/Loader"
+// import ErrorPage from "@/components/ErrorPage"
+// import { useQuery } from "@tanstack/react-query"
 
 
 type NotificationType = "event-created" | "active-event" | "event-completion" | "upcoming-reminder"

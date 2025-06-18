@@ -1,7 +1,7 @@
 "use client"
 
 import { AsyncBoundary } from "@/components/AsyncBoundary"
-import {useState} from "react"
+// import {useState} from "react"
 import { ChevronLeft, Download, Copy } from "lucide-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFacebookF, faWhatsapp, faInstagram, faXTwitter } from "@fortawesome/free-brands-svg-icons"
@@ -22,7 +22,7 @@ interface Props {
 const CodePage: React.FC<Props> = ({ id }) => {
 
     const router = useRouter()
-    const [copied, setCopied] = useState(false)
+    // Removed unused 'copied' state
 
     const { data: event, isLoading } = useQuery<EventType>({
         queryKey: ["event"],
@@ -36,8 +36,7 @@ const CodePage: React.FC<Props> = ({ id }) => {
     const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(url)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      // Optionally, show a toast or feedback here
     } catch (err) {
       console.error("Failed to copy text: ", err)
     }
@@ -49,6 +48,7 @@ const CodePage: React.FC<Props> = ({ id }) => {
     }
 
     const qrCode = event?.qrCodeUrl
+    const url = typeof window !== "undefined" ? window.location.href : ""; // fallback to current page
 
     return (
         <AsyncBoundary loadingFallback={<Loader />} errorFallback={<ErrorPage content="Couldn&apos;t load Qr Code page" />}>
@@ -63,7 +63,7 @@ const CodePage: React.FC<Props> = ({ id }) => {
 
                     <div className="relative mb-6 flex justify-center">
                         <Image
-                            src={qrCode}
+                            src={qrCode || "/placeholder.png"}
                             alt="QR Code"
                             width={240}
                             height={240}
