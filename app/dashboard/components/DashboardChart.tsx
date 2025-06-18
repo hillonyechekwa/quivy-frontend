@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useQuery } from '@tanstack/react-query';
+// import { useQuery } from '@tanstack/react-query';
 
 const DashboardChart = () => {
     const [timeRange, setTimeRange] = useState('Last 31 days');
@@ -23,7 +23,7 @@ const DashboardChart = () => {
         { date: '12/12', clicks: 65, scans: 15 },
     ];
 
-    const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+    const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
         if (active && payload && payload.length) {
             const dataType = payload[0].dataKey === 'clicks' ? 'Clicks' : 'Scans';
             return (
